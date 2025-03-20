@@ -175,21 +175,6 @@ const MainContent: React.FC = () => {
                 title={content.apps.sales.title}
                 description={content.apps.sales.description}
               />
-              <AppCard
-                icon={<ShoppingBag className="w-10 h-10 text-blue-400" />}
-                title={content.apps.sales.title}
-                description={content.apps.sales.description}
-              />
-              <AppCard
-                icon={<ShoppingBag className="w-10 h-10 text-blue-400" />}
-                title={content.apps.sales.title}
-                description={content.apps.sales.description}
-              />
-              <AppCard
-                icon={<ShoppingBag className="w-10 h-10 text-blue-400" />}
-                title={content.apps.sales.title}
-                description={content.apps.sales.description}
-              />
             </div>
           </div>
         </section>
