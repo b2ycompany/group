@@ -36,11 +36,11 @@ const FooterComponent = () => {
                         </div>
                         <div className="flex items-center gap-4">
                             <Mail className="w-6 h-6 text-emerald-400" />
-                            <span className="text-white/80 text-sm">support@b2yfuture.com</span>
+                            <span className="text-white/80 text-sm">b2ylion@gmail.com</span>
                         </div>
                         <div className="flex items-center gap-4">
                             <Globe className="w-6 h-6 text-emerald-400" />
-                            <span className="text-white/80 text-sm">www.b2ysolution.com</span>
+                            <span className="text-white/80 text-sm">https://group-tau.vercel.app</span>
                         </div>
                     </div>
                 </div>
