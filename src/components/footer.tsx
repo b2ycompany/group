@@ -12,10 +12,10 @@ const FooterComponent = () => {
                         <Image src={Logo} alt="B2Y Future Labs Logo" width={220} height={60} className="animate-pulse rounded-lg" />
                     </div>
                     <p className="text-white/80 text-lg leading-relaxed">
-                        Somos uma empresa de tecnologia dedicada a desenvolver soluções inovadoras que geram impacto positivo. Entre nossos projetos, destaca-se o B2Y CARBON, um aplicativo que transforma quilômetros percorridos em crédito de carbono, gerando renda para os usuários e promovendo a sustentabilidade. Inovação e responsabilidade ambiental caminham juntas na nossa missão de construir um futuro mais verde e inteligente.
+                        Soluções inovadoras que geram impacto positivo.
                     </p>
                     <p className="text-white/60 text-sm">
-                        Inovar e motivar são combustiveis para nossas os nossos desafios.
+                        Inovação e responsabilidade ambiental caminham juntas na nossa missão de construir um futuro mais verde e inteligente.
                     </p>
                 </div>
 
