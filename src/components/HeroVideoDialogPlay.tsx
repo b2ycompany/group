@@ -8,14 +8,14 @@ function HeroVideoDialogDemo() {
                 className="dark:hidden block"
                 animationStyle="from-center"
                 videoSrc="https://www.youtube.com/embed/w1vJmX2pGP4?si=8-ERpKDc4ibt5V9I"
-                thumbnailSrc="https://startup-template-sage.vercel.app/hero-light.png"
+                thumbnailSrc="https://b2ycompany.github.io/group/carbono.png"
                 thumbnailAlt="Hero Video"
             />
             <HeroVideoDialog
                 className="hidden dark:block"
                 animationStyle="from-center"
                 videoSrc="https://www.youtube.com/embed/w1vJmX2pGP4?si=8-ERpKDc4ibt5V9I"
-                thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
+                thumbnailSrc="https://b2ycompany.github.io/group/carbono.png"
                 thumbnailAlt="Hero Video"
             />
         </div>
@@ -29,14 +29,14 @@ function HeroVideoDialogDemoTopInBottomOut() {
                 className="dark:hidden block"
                 animationStyle="top-in-bottom-out"
                 videoSrc="https://www.youtube.com/embed/w1vJmX2pGP4?si=8-ERpKDc4ibt5V9I"
-                thumbnailSrc="https://startup-template-sage.vercel.app/hero-light.png"
+                thumbnailSrc="https://b2ycompany.github.io/group/carbono.png"
                 thumbnailAlt="Hero Video"
             />
             <HeroVideoDialog
                 className="hidden dark:block"
                 animationStyle="top-in-bottom-out"
                 videoSrc="https://www.youtube.com/embed/w1vJmX2pGP4?si=8-ERpKDc4ibt5V9I"
-                thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
+                thumbnailSrc="https://b2ycompany.github.io/group/carbono.png"
                 thumbnailAlt="Hero Video"
             />
         </div>
