@@ -12,10 +12,10 @@ const FooterComponent = () => {
                         <Image src={Logo} alt="B2Y Future Labs Logo" width={220} height={60} className="animate-pulse rounded-lg" />
                     </div>
                     <p className="text-white/80 text-lg leading-relaxed">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel illum quaerat eveniet, esse fugiat necessitatibus aperiam est perferendis. Dignissimos, libero.
+                        Somos uma empresa de tecnologia dedicada a desenvolver soluções inovadoras que geram impacto positivo. Entre nossos projetos, destaca-se o B2Y CARBON, um aplicativo que transforma quilômetros percorridos em crédito de carbono, gerando renda para os usuários e promovendo a sustentabilidade. Inovação e responsabilidade ambiental caminham juntas na nossa missão de construir um futuro mais verde e inteligente.
                     </p>
                     <p className="text-white/60 text-sm">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel illum quaerat eveniet, esse fugiat necessitatibus aperiam est perferendis.
+                        Inovar e motivar são combustiveis para nossas os nossos desafios.
                     </p>
                 </div>
 
@@ -47,13 +47,12 @@ const FooterComponent = () => {
 
                 {/* Serviços & Tecnologias */}
                 <div className="space-y-6">
-                    <h3 className="text-xl font-semibold text-emerald-400">Elabore um Título Legal</h3>
+                    <h3 className="text-xl font-semibold text-emerald-400">Parcerias Ambientais</h3>
                     <ul className="text-white/80 space-y-2 text-sm">
-                        <li>Lorem ipsum dolor sit amet consectetur</li>
-                        <li>Lorem ipsum dolor sit amet consectetur</li>
-                        <li>Lorem ipsum dolor sit amet consectetur</li>
-                        <li>Lorem ipsum dolor sit amet consectetur</li>
-                        <li>Lorem ipsum dolor sit amet consectetur</li>
+                        <li>Verified Carbon Standard (VCS)</li>
+                        <li>Gold Standard (GS)</li>
+                        <li>MOSS</li>
+                        <li>VERRA</li>
                     </ul>
                 </div>
 
