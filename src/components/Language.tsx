@@ -7,7 +7,7 @@ export default function LanguageSelector() {
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-emerald-800 to-emerald-500">
       <div className="text-center space-y-8 px-4">
         <div className="space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold text-white">Bem-vindo à Lion Solution</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white">Bem-vindo à Lion Solution & B2Y Group</h1>
           <p className="text-lg text-white/90">Selecione seu idioma:</p>
         </div>
 
