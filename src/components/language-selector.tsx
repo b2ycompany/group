@@ -58,7 +58,7 @@ export function LanguageSelector({ onLanguageSelect }: LanguageSelectorProps) {
       <div className="text-center space-y-8 px-6 py-8 bg-black/60 rounded-2xl shadow-xl z-10">
         <div className="space-y-2">
           <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-lime-300">
-            Bem-vindo à Lion Solution
+            Bem-vindo à Lion Solution & B2Y Group
           </h1>
           <p className="text-lg text-white/80">Selecione seu idioma:</p>
         </div>
