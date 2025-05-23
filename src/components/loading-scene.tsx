@@ -1,115 +1,155 @@
-'use client'
+// src/components/loading-scene.tsx
+'use client';
 
-import { useEffect } from "react"
-import { Car, Leaf, Battery } from "lucide-react"
-import gsap from "gsap"
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+// Certifique-se que este é o logo que você quer usar aqui.
+// Se for o combinado, use o nome correto, ex: B2Y_Lion_Solutions_Logo_White.svg
+import LogoToUseInSplash from '@/components/assets/B2Y BUSINESS 2 Y U.svg'; 
+import { Zap, Leaf, Cpu, Lightbulb, Network, HardDrive, Brain, ShieldCheck } from 'lucide-react'; // Adicionei Brain e ShieldCheck para variedade
 
 interface LoadingSceneProps {
-  onLoadingComplete: () => void
+  onLoadingComplete: () => void;
 }
 
+const bootSequenceMessages = [
+  { text: "SYSTEM CORE CHECK...", icon: HardDrive, duration: 700 },
+  { text: "B2Y NEURAL INTERFACE ONLINE", icon: Brain, duration: 800 },
+  { text: "LION SOLUTIONS ENGINE SYNCED", icon: Zap, duration: 800 },
+  { text: "ECO-ALGORITHMS ACTIVATED (B2Y CARBON)", icon: Leaf, duration: 900 },
+  { text: "INNOVATION MATRIX CALIBRATING (PORTFOLIO)", icon: Lightbulb, duration: 900 },
+  { text: "QUANTUM DATASTREAM ESTABLISHED", icon: Network, duration: 1000 },
+  { text: "SECURITY PROTOCOLS VERIFIED", icon: ShieldCheck, duration: 800},
+  { text: "REALITY ENGINE INITIALIZING...", icon: Cpu, duration: 1000 },
+];
+
+// Calcula a duração total baseada nas mensagens + delay para o logo e um buffer final
+const logoMaterializationDuration = 1200; // Tempo para o logo se materializar
+const initialDelayBeforeMessages = logoMaterializationDuration + 300; // Delay após o logo estar visível
+const totalMessagesDuration = bootSequenceMessages.reduce((acc, msg) => acc + msg.duration, 0);
+const finalBuffer = 500;
+const totalCalculatedSplashDuration = initialDelayBeforeMessages + totalMessagesDuration + finalBuffer;
+
+
 export function LoadingScene({ onLoadingComplete }: LoadingSceneProps) {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(-1); // -1: Nenhuma mensagem visível inicialmente
+  const [logoState, setLogoState] = useState<'hidden' | 'materializing' | 'visible'>('hidden');
+  const [progressBarVisible, setProgressBarVisible] = useState(false);
+
   useEffect(() => {
-    const tl = gsap.timeline({ paused: true });
+    const logoAppearTimer = setTimeout(() => setLogoState('materializing'), 200);
+    const logoVisibleTimer = setTimeout(() => setLogoState('visible'), logoMaterializationDuration);
+    const showProgressBarTimer = setTimeout(() => setProgressBarVisible(true), initialDelayBeforeMessages - 300); // Barra aparece um pouco antes das msgs
 
-    // Animações de rotação circular para os elementos
-    tl.to(".loading-container", {
-      opacity: 1,
-      duration: 1,
-      delay: 0.5,
-      ease: "power2.out"
-    })
-      .to(".spinning-background", {
-        rotation: 360,
-        duration: 6,
-        repeat: -1,
-        ease: "linear"
-      })
-      .to(".spinning-element", {
-        rotation: 360,
-        duration: 3,
-        repeat: -1,
-        ease: "linear"
-      })
+    let accumulatedTimeForMessages = initialDelayBeforeMessages;
+    const messageTimeouts: NodeJS.Timeout[] = [];
 
-      // Car (Movimento circular ao redor do centro)
-      .to(".spinning-car", {
-        rotation: 360,  // Gira o carro
-        x: "50vw",      // Move o carro para a direita
-        y: "50vh",      // Move o carro para baixo
-        duration: 5,
-        repeat: -1,
-        transformOrigin: "center center",
-        ease: "linear"
-      })
+    bootSequenceMessages.forEach((msg, index) => {
+      const timeout = setTimeout(() => {
+        setCurrentMessageIndex(index);
+      }, accumulatedTimeForMessages);
+      messageTimeouts.push(timeout);
+      accumulatedTimeForMessages += msg.duration;
+    });
 
-      // Leaf (Movimento circular ao redor do centro)
-      .to(".orbiting-leaf", {
-        rotation: 360,  // Gira a folha
-        x: "50vw",      // Move a folha para a direita
-        y: "50vh",      // Move a folha para baixo
-        duration: 5,
-        repeat: -1,
-        transformOrigin: "center center",
-        ease: "linear"
-      })
-
-      // Battery (Movimento circular ao redor do centro)
-      .to(".orbiting-battery", {
-        rotation: 360,  // Gira a bateria
-        x: "50vw",      // Move a bateria para a direita
-        y: "50vh",      // Move a bateria para baixo
-        duration: 5,
-        repeat: -1,
-        transformOrigin: "center center",
-        ease: "linear"
-      })
-
-    // Inicia a animação
-    tl.play();
-
-    //  fim do carregamento após 3 segundos
-    const timer = setTimeout(() => {
-      onLoadingComplete()
-    }, 3000);
+    const completeTimeout = setTimeout(() => {
+      onLoadingComplete();
+    }, totalCalculatedSplashDuration); 
 
     return () => {
-      clearTimeout(timer);
-      tl.kill(); // Limpa a animação ao desmontar o componente
+      clearTimeout(logoAppearTimer);
+      clearTimeout(logoVisibleTimer);
+      clearTimeout(showProgressBarTimer);
+      messageTimeouts.forEach(clearTimeout);
+      clearTimeout(completeTimeout);
     };
   }, [onLoadingComplete]);
 
+  const ActiveMessage = currentMessageIndex >= 0 && currentMessageIndex < bootSequenceMessages.length 
+                        ? bootSequenceMessages[currentMessageIndex] 
+                        : null;
+  
+  const calculateProgress = () => {
+    if (!progressBarVisible || currentMessageIndex < 0) return 0;
+    
+    // Tempo decorrido até o início da mensagem atual
+    let timeElapsed = initialDelayBeforeMessages; 
+    for(let i = 0; i < currentMessageIndex; i++) {
+        timeElapsed += bootSequenceMessages[i].duration;
+    }
+    // Adiciona uma fração da duração da mensagem atual para suavizar a barra
+    // (Este cálculo pode ser mais complexo se quisermos a barra progredindo *durante* a exibição da mensagem)
+    // Para simplificar, vamos fazer a barra avançar quando a mensagem *começa* a ser exibida.
+    if (ActiveMessage) {
+        // Progresso baseado em qual mensagem está ativa
+        return ((currentMessageIndex + 1) / bootSequenceMessages.length) * 100;
+    }
+    return 0;
+  };
+  const progressBarWidth = calculateProgress();
+
   return (
-    <div className="fixed inset-0 bg-gradient-to-b from-emerald-800 to-emerald-600 z-50 flex flex-col items-center justify-center">
-      <div className="relative flex flex-col items-center opacity-0 loading-container">
-        {/* Spinning circle background */}
-        <div className="absolute inset-0 rounded-full bg-emerald-700/50 spinning-background" />
-
-        {/* Main spinning container */}
-        <div className="relative p-8 rounded-full bg-emerald-700 shadow-lg spinning-element">
-          <Car className="w-12 h-12 text-emerald-100 spinning-car" />
-        </div>
-
-        {/* Orbiting elements */}
-        <div className="absolute top-0 -mt-4 orbiting-leaf">
-          <Leaf className="w-6 h-6 text-emerald-300" />
-        </div>
-        <div className="absolute bottom-0 -mb-4 orbiting-battery">
-          <Battery className="w-6 h-6 text-emerald-300" />
-        </div>
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none animate-fadeIn" style={{ animationDuration: '1s' }}>
+        <div className="holographic-grid"></div>
+      </div>
+      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+        {[...Array(40)].map((_, i) => (
+          <div
+            key={`data-stream-${i}`}
+            className="absolute bg-emerald-500/70 animate-dataStreamParticle"
+            style={{
+              width: `${Math.random() * 2 + 0.5}px`,
+              height: `${Math.random() * 30 + 10}px`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${1 + Math.random() * 2}s`,
+              animationDelay: `${Math.random() * 3}s`,
+              opacity: Math.random() * 0.3 + 0.1,
+            }}
+          />
+        ))}
       </div>
 
-      {/* Loading text */}
-      <div className="mt-8 text-emerald-100 font-medium">
-        <div className="flex items-center gap-2">
-          <span className="animate-pulse">Carregando</span>
-          <span className="flex gap-1">
-            <span className="animate-bounce delay-100">.</span>
-            <span className="animate-bounce delay-200">.</span>
-            <span className="animate-bounce delay-300">.</span>
-          </span>
+      <div className={`relative z-20 flex flex-col items-center text-center px-4 w-full transition-opacity duration-1000 ${logoState !== 'hidden' ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+            className={`mb-10 md:mb-12 transition-all duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)]
+                        ${logoState === 'materializing' || logoState === 'visible' ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-90 blur-sm'}`}
+            style={{ transitionDelay: logoState === 'materializing' ? '0.2s' : '0s' }}
+        >
+          <Image 
+            src={LogoToUseInSplash} 
+            alt="B2Y Group & Lion Solutions" 
+            width={340} 
+            height={90} 
+            priority 
+            className="drop-shadow-[0_0_25px_rgba(16,185,129,0.6)] filter_custom_glow"
+          />
+        </div>
+
+        <div className="h-10 md:h-12 flex items-center justify-center overflow-hidden w-full max-w-lg md:max-w-xl mb-8">
+          {bootSequenceMessages.map((msg, index) => (
+             <div
+              key={msg.text + index} // Key única para cada mensagem
+              className={`absolute flex items-center justify-center text-md md:text-lg text-emerald-300 font-mono tracking-widest transition-opacity duration-300 ease-in-out
+                          ${index === currentMessageIndex ? 'opacity-100 animate-scanlineRevealInternal' : 'opacity-0'}`}
+              style={{ animationDuration: `${msg.duration * 0.00085}s` }} // A animação do texto dura 85% do tempo da mensagem
+            >
+              {msg.icon && <msg.icon size={20} className="mr-3 text-emerald-400 shrink-0" />}
+              <span className="whitespace-nowrap">{msg.text}</span>
+            </div>
+          ))}
+        </div>
+        
+        <div className={`w-3/4 max-w-md h-2.5 bg-gray-800/50 rounded-full overflow-hidden border border-emerald-700/50 shadow-inner transition-opacity duration-500 delay-1000 ${progressBarVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <div 
+            className="h-full bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-300 rounded-full shadow-[0_0_10px_theme('colors.emerald.400'),_inset_0_1px_1px_theme('colors.green.700/50')]"
+            style={{ 
+                width: `${progressBarWidth}%`,
+                transition: `width ${bootSequenceMessages[0]?.duration ? (bootSequenceMessages[0].duration * 0.7) : 700}ms cubic-bezier(0.65, 0, 0.35, 1)`
+            }}
+          ></div>
         </div>
       </div>
     </div>
-  )
+  );
 }

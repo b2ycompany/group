@@ -1,196 +1,118 @@
+// src/contexts/language-context.tsx
+"use client";
 
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+export type Language = "pt-BR" | "en-US" | "es-ES";
 
-export type Language = "pt-BR" | "en-US" | "es-ES"
-
-interface ContentData {
-  heroTitle: string
-  heroDescription: string
-  aboutTitle: string
-  aboutText: string
-  appsTitle: string
-  apps: {
-    carbon: { title: string; description: string }
-    frequency: { title: string; description: string }
-    sales: { title: string; description: string }
-  }
-  contact: {
-    title: string
-    text: string
-    address: {
-      building: string
-      street: string
-      floor: string
-      city: string
-      postalCode: string
-    }
-  }
-  footerText: string
-  nav: {
-    home: string
-    about: string
-    apps: string
-    contact: string  
-  }
+export interface ContentData {
+  nav: { home: string; aboutUs: string; b2yCarbon: string; solutions: string; services: string; technology: string; sustainability: string; contact: string; };
+  buttons: { explore: string; learnMore: string; discoverTech: string; sendEmail?: string; partnerWithUs: string; };
+  hero: { b2yGroup: { title: string; description: string }; b2yCarbon: { title: string; description: string }; lionSolutions: { title: string; description: string }; };
+  about: { title: string; text1: string; text2: string; text3?: string; };
+  b2yCarbon: { mainTitle: string; intro: string; feature1: { title: string; description: string }; feature2: { title: string; description: string }; feature3: { title: string; description: string }; ctaButton: string; };
+  otherSolutions: { title: string; };
+  solutions: { b2ySales: { title: string; description: string; link?: string }; jbJuridico: { title: string; description: string; link?: string }; fthGestao: { title: string; description: string; link?: string }; geniusLoto: { title: string; description: string; link?: string }; };
+  services: { mainTitle: string; intro: string; development: { title: string; description: string; items: string[] }; investment: { title: string; description: string; items: string[] }; ctaButton: string; };
+  technology: { title: string; subtitle: string; item1: { title: string; description: string }; item2: { title: string; description: string }; item3: { title: string; description: string }; };
+  sustainability: { mainTitle: string; introText: string; pillar1: { title: string; description: string }; pillar2: { title: string; description: string }; pillar3: { title: string; description: string }; };
+  contact: { title: string; subtitle: string; };
+  footer: { rights: string; poweredBy: string; };
 }
 
-interface LanguageContextType {
-  currentLanguage: Language
-  setLanguage: (lang: Language) => void
-  content: ContentData
+export interface LanguageContextType {
+  currentLanguage: Language;
+  setLanguage: (lang: Language) => void;
+  content: ContentData;
 }
 
 const contentData: Record<Language, ContentData> = {
   "pt-BR": {
-    heroTitle: "Tecnologia Sustentável",
-    heroDescription: "Solucionando desafios com inovação e respeito ao meio ambiente",
-    aboutTitle: "Sobre Nós",
-    aboutText:
-      "A Lion Solution é líder em soluções tecnológicas que promovem sustentabilidade e impacto positivo no meio ambiente.",
-    appsTitle: "Nossos Aplicativos",
-    apps: {
-      carbon: {
-        title: "B2Y Carbon",
-        description: "Gerencie os quilômetros rodados e acompanhe o sequestro de carbono.",
-      },
-      frequency: {
-        title: "B2Y Frequency",
-        description: "Aplicativo de vibrações terapêuticas para bem-estar.",
-      },
-      sales: {
-        title: "B2Y Sales",
-        description: "Classificados para vendas, compras e investimentos em negócios.",
-      },
-    },
-    contact: {
-      title: "Contato",
-      text: "Entre em contato conosco através de nossas redes sociais e canais oficiais.",
-      address: {
-        building: "Torre Jacarandá",
-        street: "Av. Marcos Penteado de Ulhoa Rodrigues, 939",
-        floor: "8º andar",
-        city: "Alphaville, Barueri - SP",
-        postalCode: "06460-040",
-      },
-    },
-    footerText: "© 2025 Lion Solution | Tecnologia Sustentável para um Mundo Melhor",
-    nav: {
-      home: "Início",
-      about: "Sobre",
-      apps: "Aplicativos",
-      contact: "Contato",
-    },
+    nav: { home: "Nave Zero", aboutUs: "Ecossistema B2Y", b2yCarbon: "Singularidade Carbon", solutions: "Soluções Quânticas", services: "Alianças Estratégicas", technology: "Tecnoesfera", sustainability: "Evolução Verde", contact: "Conectar" },
+    buttons: { explore: "Desbravar Realidades", learnMore: "Mergulhar Profundo", discoverTech: "Revelar Arquitetura", sendEmail: "Iniciar Protocolo de Contato", partnerWithUs: "Cocriar o Futuro" },
+    hero: { b2yGroup: { title: "B2Y Group: Arquitetos da Próxima Realidade.", description: "Decodificamos o futuro, tecendo tecnologia e sustentabilidade em um nexo de inovação global sem precedentes." }, b2yCarbon: { title: "B2Y Carbon: A Alquimia da Descarbonização.", description: "Transmutamos a responsabilidade ambiental em uma economia regenerativa, onde cada ação consciente reverbera valor e impacto positivo." }, lionSolutions: { title: "Lion Solutions: Constructos de Pura Inovação.", description: "Nossa forja digital onde algoritmos de vanguarda e engenharia de precisão dão vida às sinapses do amanhã." } },
+    about: { title: "O Ethos B2Y: Convergência de Futuros", text1: "B2Y Group é uma constelação de inovação, um hub interdimensional que projeta e materializa futuros desejáveis. Através de investimentos estratégicos em tecnologias exponenciais, catalisamos a evolução da consciência planetária e da prosperidade coletiva.", text2: "No núcleo desta galáxia reside Lion Solutions, nossa divisão de engenharia quântica. Aqui, mentes brilhantes orquestram sinfonias de código, transformando paradigmas complexos em plataformas digitais intuitivas, resilientes e prontas para a singularidade tecnológica.", text3: "Juntos, B2Y Group e Lion Solutions oferecem um ecossistema completo: da concepção de ideias disruptivas e investimento estratégico, ao desenvolvimento e implementação de soluções tecnológicas sob medida que definem o mercado." },
+    b2yCarbon: { mainTitle: "B2Y Carbon: A Singularidade da Economia Regenerativa", intro: "Transcenda a sustentabilidade convencional. B2Y Carbon é o seu portal para um novo paradigma de interação ambiental, onde a tecnologia de ponta amplifica o impacto positivo e desbloqueia valor na descarbonização.", feature1: { title: "Neuro-Rede de Análise Carbônica", description: "Algoritmos de IA e sensores IoT tecem uma malha de dados em tempo real, otimizando a pegada de carbono com precisão preditiva e insights acionáveis." }, feature2: { title: "Criptoativos Verdes & Gamificação", description: "Transforme ações sustentáveis em ativos digitais valorizados. Participe de um ecossistema gamificado que recompensa cada contribuição para um planeta mais equilibrado." }, feature3: { title: "Impacto Fractal & Legado Perene", description: "Cada interação com B2Y Carbon propaga um efeito positivo em cascata, contribuindo para projetos de regeneração global e construindo um futuro onde humanidade e natureza prosperam em simbiose." }, ctaButton: "Decodificar o Paradigma Carbono" },
+    otherSolutions: { title: "Holodeck de Soluções B2Y" },
+    solutions: { b2ySales: { title: "B2Y SalesMatrix: Comércio Preditivo", description: "Uma IA de vendas que transcende o CRM, antecipando demandas e otimizando a jornada do cliente em um fluxo comercial hiper-personalizado.", link: "#outras-solucoes" }, jbJuridico: { title: "LexMachina (JB Jurídico): Justiça Algorítmica", description: "IA e jurimetria avançada para uma advocacia preditiva e estratégica, automatizando o complexo e revelando insights para a resolução de litígios.", link: "#outras-solucoes" }, fthGestao: { title: "FTH Sapiens: Ecossistema de Saúde Quântica", description: "Plataforma de gestão hospitalar com IA para diagnósticos assistidos, otimização de fluxo de pacientes e medicina personalizada em tempo real.", link: "#outras-solucoes" }, geniusLoto: { title: "Genius Oracle (Loto): Sincronicidade Estatística", description: "Nossa IA desvenda as probabilidades ocultas, transformando a intuição em estratégia e elevando a arte da previsão lotérica a um novo patamar.", link: "#outras-solucoes" } },
+    services: { mainTitle: "B2Y Group & Lion Solutions: Co-criando o Futuro Tecnológico", intro: "Além de nosso portfólio de produtos, somos seus parceiros estratégicos na jornada da inovação. Oferecemos desenvolvimento tecnológico de ponta e oportunidades de investimento para impulsionar sua visão.", development: { title: "Engenharia Tecnológica de Precisão (Lion Solutions)", description: "Transformamos sua visão em realidade digital com soluções robustas e escaláveis:", items: ["Plataformas Web e Mobile com IA Integrada", "Soluções Blockchain e Contratos Inteligentes", "Desenvolvimento de Metaversos e Experiências Imersivas (XR)", "Consultoria Estratégica em Transformação Digital"] }, investment: { title: "Capital Estratégico e Aceleração de Impacto (B2Y Group)", description: "O B2Y Group busca ativamente startups e projetos inovadores para investir e acelerar:", items: ["Capital Semente e Rodadas de Investimento Série A", "Mentoria Exponencial com Líderes de Mercado e Acesso ao Nosso Ecossistema", "Sinergia com Nossas Soluções Existentes", "Foco em Tecnologias Sustentáveis e de Impacto"] }, ctaButton: "Vamos Inovar Juntos?" },
+    technology: { title: "A Tecnoesfera Lion Solutions", subtitle: "No coração do B2Y Group, pulsamos a vanguarda da engenharia digital, moldando as ferramentas da próxima era.", item1: { title: "Inteligência Artificial Autoevolutiva", description: "Nossas IAs não apenas aprendem, elas transcendem, adaptando-se e co-criando soluções em tempo real para desafios emergentes." }, item2: { title: "Metaversos & Realidade Sintética", description: "Construímos experiências imersivas e interconectadas que fundem o físico e o digital, redefinindo a colaboração e a interação humana." }, item3: { title: "Computação Neuromórfica & Bio-Interfaces", description: "Pesquisamos e desenvolvemos a próxima geração de interfaces cérebro-máquina e computação inspirada na biologia para uma simbiose tecnológica sem precedentes." } },
+    sustainability: { mainTitle: "Projeto Gaia 2.0: Nossa Diretriz Evolutiva", introText: "Para o B2Y Group, sustentabilidade é um imperativo cósmico. Cada linha de código, cada solução, é um passo em direção a uma civilização planetária regenerativa e consciente.", pillar1: { title: "Tecnologia Simbiótica", description: "Desenvolvemos inovações que mimetizam e amplificam os ciclos da natureza, promovendo a biointegração e a economia circular em escala fractal." }, pillar2: { title: "Consciência Coletiva Digital", description: "Fomentamos plataformas que elevam a consciência socioambiental global, capacitando indivíduos e comunidades para a cocriação de um futuro equitativo." }, pillar3: { title: "Governança Quântica (ESG+T)", description: "Adotamos um modelo de governança que transcende o ESG tradicional, incorporando a Transparência radical e a Ética algorítmica como pilares fundamentais." } },
+    contact: { title: "Inicie a Conexão Quântica", subtitle: "Sua visão ressoa com a nossa? O futuro é um campo de potencial infinito. Vamos co-criar a próxima onda de inovação disruptiva. A singularidade nos aguarda." },
+    footer: { rights: "Todos os Futuros Co-criados e Reservados.", poweredBy: "Singularidade Tecnológica por Lion Solutions, um Nexo B2Y Group." },
   },
   "en-US": {
-    heroTitle: "Sustainable Technology",
-    heroDescription: "Solving challenges with innovation and environmental respect",
-    aboutTitle: "About Us",
-    aboutText:
-      "Lion Solution is a leader in technological solutions that promote sustainability and positive environmental impact.",
-    appsTitle: "Our Applications",
-    apps: {
-      carbon: {
-        title: "B2Y Carbon",
-        description: "Manage mileage and track carbon sequestration.",
-      },
-      frequency: {
-        title: "B2Y Frequency",
-        description: "Therapeutic vibration application for wellness.",
-      },
-      sales: {
-        title: "B2Y Sales",
-        description: "Classifieds for sales, purchases, and business investments.",
-      },
-    },
-    contact: {
-      title: "Contact",
-      text: "Contact us through our social networks and official channels.",
-      address: {
-        building: "Torre Jacarandá",
-        street: "Av. Marcos Penteado de Ulhoa Rodrigues, 939",
-        floor: "8th floor",
-        city: "Alphaville, Barueri - SP",
-        postalCode: "06460-040",
-      },
-    },
-    footerText: "© 2025 Lion Solution | Sustainable Technology for a Better World",
-    nav: {
-      home: "Home",
-      about: "About",
-      apps: "Apps",
-      contact: "Contact",
-    },
+    nav: { home: "Nexus Zero", aboutUs: "B2Y Ecosystem", b2yCarbon: "Carbon Singularity", solutions: "Quantum Solutions", services: "Strategic Alliances", technology: "Technosphere", sustainability: "Green Evolution", contact: "Connect" },
+    buttons: { explore: "Explore Realities", learnMore: "Dive Deeper", discoverTech: "Reveal Architecture", sendEmail: "Initiate Contact Protocol", partnerWithUs: "Co-create the Future" },
+    hero: { b2yGroup: { title: "B2Y Group: Architects of the Next Reality.", description: "We decode the future, weaving technology and sustainability into an unprecedented global innovation nexus." }, b2yCarbon: { title: "B2Y Carbon: The Alchemy of Decarbonization.", description: "We transmute environmental responsibility into a regenerative economy, where every conscious action reverberates value and positive impact." }, lionSolutions: { title: "Lion Solutions: Constructs of Pure Innovation.", description: "Our digital forge where vanguard algorithms and precision engineering bring to life the synapses of tomorrow." } },
+    about: { title: "The B2Y Ethos: Convergence of Futures", text1: "B2Y Group is an innovation constellation, an interdimensional hub that designs and materializes desirable futures. Through strategic investments in exponential technologies, we catalyze the evolution of planetary consciousness and collective prosperity.", text2: "At the core of this galaxy lies Lion Solutions, our quantum engineering division. Here, brilliant minds orchestrate symphonies of code, transforming complex paradigms into intuitive, resilient digital platforms ready for the technological singularity.", text3: "Together, B2Y Group and Lion Solutions offer a complete ecosystem: from the conception of disruptive ideas and strategic investment, to the development and implementation of custom, market-defining technological solutions." },
+    b2yCarbon: { mainTitle: "B2Y Carbon: The Singularity of the Regenerative Economy", intro: "Transcend conventional sustainability. B2Y Carbon is your portal to a new paradigm of environmental interaction, where cutting-edge technology amplifies positive impact and unlocks value in decarbonization.", feature1: { title: "Neural Network Carbon Analysis", description: "AI algorithms and IoT sensors weave a real-time data mesh, optimizing carbon footprints with predictive accuracy and actionable insights." }, feature2: { title: "Green Crypto-Assets & Gamification", description: "Transform sustainable actions into valued digital assets. Participate in a gamified ecosystem that rewards every contribution to a more balanced planet." }, feature3: { title: "Fractal Impact & Perennial Legacy", description: "Each interaction with B2Y Carbon propagates a cascading positive effect, contributing to global regeneration projects and building a future where humanity and nature thrive in symbiosis." }, ctaButton: "Decode the Carbon Paradigm" },
+    otherSolutions: { title: "B2Y Holodeck of Solutions" },
+    solutions: { b2ySales: { title: "B2Y SalesMatrix: Predictive Commerce", description: "A sales AI that transcends CRM, anticipating demand and optimizing the customer journey in a hyper-personalized commercial flow.", link: "#outras-solucoes" }, jbJuridico: { title: "LexMachina (JB Jurídico): Algorithmic Justice", description: "AI and advanced jurimetrics for predictive and strategic law practice, automating complexity and revealing insights for dispute resolution.", link: "#outras-solucoes" }, fthGestao: { title: "FTH Sapiens: Quantum Health Ecosystem", description: "Hospital management platform with AI for assisted diagnostics, patient flow optimization, and real-time personalized medicine.", link: "#outras-solucoes" }, geniusLoto: { title: "Genius Oracle (Loto): Statistical Synchronicity", description: "Our AI unveils hidden probabilities, transforming intuition into strategy and elevating the art of lottery prediction to a new level.", link: "#outras-solucoes" } },
+    services: { mainTitle: "B2Y Group & Lion Solutions: Co-creating the Technological Future", intro: "Beyond our product portfolio, we are your strategic partners on the innovation journey. We offer cutting-edge technological development and investment opportunities to propel your vision.", development: { title: "Custom Technological Development", description: "With the expertise of Lion Solutions, we turn your ideas into digital reality:", items: ["AI-Integrated Web and Mobile Platforms", "Blockchain Solutions and Smart Contracts", "Metaverse and Immersive Experiences (XR) Development", "Strategic Consulting in Digital Transformation"] }, investment: { title: "Investment and Strategic Partnerships", description: "B2Y Group actively seeks innovative startups and projects to invest in and accelerate:", items: ["Seed Capital and Series A Investment Rounds", "Strategic Mentorship and Access to Our Ecosystem", "Synergy with Our Existing Solutions", "Focus on Sustainable and Impact Technologies"] }, ctaButton: "Let's Innovate Together?" },
+    technology: { title: "The Lion Solutions Technosphere", subtitle: "At the heart of B2Y Group, we pulse the vanguard of digital engineering, shaping the tools of the next era.", item1: { title: "Self-Evolving Artificial Intelligence", description: "Our AIs not only learn, they transcend, adapting and co-creating solutions in real-time for emerging challenges." }, item2: { title: "Metaverses & Synthetic Reality", description: "We build immersive and interconnected experiences that merge the physical and digital, redefining collaboration and human interaction." }, item3: { title: "Neuromorphic Computing & Bio-Interfaces", description: "We research and develop the next generation of brain-machine interfaces and biology-inspired computing for unprecedented technological symbiosis." } },
+    sustainability: { mainTitle: "Project Gaia 2.0: Our Evolutionary Directive", introText: "For B2Y Group, sustainability is a cosmic imperative. Every line of code, every solution, is a step towards a regenerative and conscious planetary civilization.", pillar1: { title: "Symbiotic Technology", description: "We develop innovations that mimic and amplify nature's cycles, promoting bio-integration and the circular economy on a fractal scale." }, pillar2: { title: "Digital Collective Consciousness", description: "We foster platforms that elevate global socio-environmental awareness, empowering individuals and communities for the co-creation of an equitable future." }, pillar3: { title: "Quantum Governance (ESG+T)", description: "We adopt a governance model that transcends traditional ESG, incorporating radical Transparency and algorithmic Ethics as fundamental pillars." } },
+    contact: { title: "Initiate Quantum Connection", subtitle: "Does your vision resonate with ours? The future is a field of infinite potential. Let's co-create the next wave of disruptive innovation. Singularity awaits." },
+    footer: { rights: "All Futures Co-created and Reserved.", poweredBy: "Technological Singularity by Lion Solutions, a B2Y Group Nexus." }
   },
   "es-ES": {
-    heroTitle: "Tecnología Sostenible",
-    heroDescription: "Resolviendo desafíos con innovación y respeto al medio ambiente",
-    aboutTitle: "Sobre Nosotros",
-    aboutText:
-      "Lion Solution es líder en soluciones tecnológicas que promueven la sostenibilidad y un impacto positivo en el medio ambiente.",
-    appsTitle: "Nuestras Aplicaciones",
-    apps: {
-      carbon: {
-        title: "B2Y Carbon",
-        description: "Gestione el kilometraje y rastree el secuestro de carbono.",
-      },
-      frequency: {
-        title: "B2Y Frequency",
-        description: "Aplicación de vibración terapéutica para el bienestar.",
-      },
-      sales: {
-        title: "B2Y Sales",
-        description: "Clasificados para ventas, compras e inversiones comerciales.",
-      },
-    },
-    contact: {
-      title: "Contacto",
-      text: "Contáctenos a través de nuestras redes sociales y canales oficiales.",
-      address: {
-        building: "Torre Jacarandá",
-        street: "Av. Marcos Penteado de Ulhoa Rodrigues, 939",
-        floor: "Piso 8",
-        city: "Alphaville, Barueri - SP",
-        postalCode: "06460-040",
-      },
-    },
-    footerText: "© 2025 Lion Solution | Tecnología Sostenible para un Mundo Mejor",
-    nav: {
-      home: "Inicio",
-      about: "Sobre",
-      apps: "Aplicaciones",
-      contact: "Contacto",
-    },
+    nav: { home: "Nexo Cero", aboutUs: "Ecosistema B2Y", b2yCarbon: "Singularidad Carbono", solutions: "Soluciones Cuánticas", services: "Alianzas Estratégicas", technology: "Tecnoesfera", sustainability: "Evolución Verde", contact: "Conectar" },
+    buttons: { explore: "Explorar Realidades", learnMore: "Profundizar", discoverTech: "Revelar Arquitectura", sendEmail: "Iniciar Protocolo de Contacto", partnerWithUs: "Co-crear el Futuro" },
+    hero: { b2yGroup: { title: "B2Y Group: Arquitectos de la Próxima Realidad.", description: "Decodificamos el futuro, tejiendo tecnología y sostenibilidad en un nexo de innovación global sin precedentes." }, b2yCarbon: { title: "B2Y Carbon: La Alquimia de la Descarbonización.", description: "Transmutamos la responsabilidad ambiental en una economía regenerativa, donde cada acción consciente reverbera valor e impacto positivo." }, lionSolutions: { title: "Lion Solutions: Constructos de Pura Innovación.", description: "Nuestra forja digital donde algoritmos de vanguardia e ingeniería de precisión dan vida a las sinapsis del mañana." } },
+    about: { title: "El Ethos B2Y: Convergencia de Futuros", text1: "B2Y Group es una constelación de innovación, un hub interdimensional que diseña y materializa futuros deseables. A través de inversiones estratégicas en tecnologías exponenciales, catalizamos la evolución de la conciencia planetaria y la prosperidad colectiva.", text2: "En el núcleo de esta galaxia reside Lion Solutions, nuestra división de ingeniería cuántica. Aquí, mentes brillantes orquestan sinfonías de código, transformando paradigmas complejos en plataformas digitales intuitivas, resilientes y listas para la singularidad tecnológica.", text3: "Juntos, B2Y Group y Lion Solutions ofrecen un ecosistema completo: desde la concepción de ideas disruptivas e inversión estratégica, hasta el desarrollo e implementación de soluciones tecnológicas a medida que definen el mercado." },
+    b2yCarbon: { mainTitle: "B2Y Carbon: La Singularidad de la Economía Regenerativa", intro: "Transciende la sostenibilidad convencional. B2Y Carbon es tu portal a un nuevo paradigma de interacción ambiental, donde la tecnología de punta amplifica el impacto positivo y desbloquea valor en la descarbonización.", feature1: { title: "Neuro-Red de Análisis Carbónico", description: "Algoritmos de IA y sensores IoT tejen una malla de datos en tiempo real, optimizando la huella de carbono con precisión predictiva e insights accionables." }, feature2: { title: "Criptoactivos Verdes y Gamificación", description: "Transforma acciones sostenibles en activos digitales valorados. Participa en un ecosistema gamificado que recompensa cada contribución a un planeta más equilibrado." }, feature3: { title: "Impacto Fractal y Legado Perenne", description: "Cada interacción con B2Y Carbon propaga un efecto positivo en cascada, contribuyendo a proyectos de regeneración global y construyendo un futuro donde humanidad y naturaleza prosperan en simbiosis." }, ctaButton: "Decodificar el Paradigma Carbono" },
+    otherSolutions: { title: "Holodeck de Soluciones B2Y" },
+    solutions: { b2ySales: { title: "B2Y SalesMatrix: Comercio Predictivo", description: "Una IA de ventas que trasciende el CRM, anticipando demandas y optimizando el viaje del cliente en un flujo comercial hiper-personalizado.", link: "#outras-solucoes" }, jbJuridico: { title: "LexMachina (JB Jurídico): Justicia Algorítmica", description: "IA y jurimetría avanzada para una abogacía predictiva y estratégica, automatizando lo complejo y revelando insights para la resolución de litigios.", link: "#outras-solucoes" }, fthGestao: { title: "FTH Sapiens: Ecosistema de Salud Cuántica", description: "Plataforma de gestión hospitalaria con IA para diagnósticos asistidos, optimización del flujo de pacientes y medicina personalizada en tiempo real.", link: "#outras-solucoes" }, geniusLoto: { title: "Genius Oracle (Loto): Sincronicidad Estadística", description: "Nuestra IA desvela las probabilidades ocultas, transformando la intuición en estrategia y elevando el arte de la predicción lotérica a un nuevo nivel.", link: "#outras-solucoes" } },
+    services: { mainTitle: "B2Y Group & Lion Solutions: Co-creando el Futuro Tecnológico", intro: "Más allá de nuestro portafolio de productos, somos sus socios estratégicos en el viaje de la innovación. Ofrecemos desarrollo tecnológico de vanguardia y oportunidades de inversión para impulsar su visión.", development: { title: "Desarrollo Tecnológico a Medida", description: "Con la experiencia de Lion Solutions, convertimos sus ideas en realidad digital:", items: ["Plataformas Web y Móviles con IA Integrada", "Soluciones Blockchain y Contratos Inteligentes", "Desarrollo de Metaversos y Experiencias Inmersivas (XR)", "Consultoría Estratégica en Transformación Digital"] }, investment: { title: "Inversión y Alianzas Estratégicas", description: "B2Y Group busca activamente startups y proyectos innovadores para invertir y acelerar:", items: ["Capital Semilla y Rondas de Inversión Serie A", "Mentoría Estratégica y Acceso a Nuestro Ecosistema", "Sinergia con Nuestras Soluciones Existentes", "Enfoque en Tecnologías Sostenibles y de Impacto"] }, ctaButton: "¿Innovamos Juntos?" },
+    technology: { title: "La Tecnoesfera Lion Solutions", subtitle: "En el corazón de B2Y Group, pulsamos la vanguardia de la ingeniería digital, moldeando las herramientas de la próxima era.", item1: { title: "Inteligencia Artificial Autoevolutiva", description: "Nuestras IAs no solo aprenden, trascienden, adaptándose y co-creando solutions en tiempo real para desafíos emergentes." }, item2: { title: "Metaversos y Realidad Sintética", description: "Construimos experiencias inmersivas e interconectadas que fusionan lo físico y lo digital, redefiniendo la colaboración y la interacción humana." }, item3: { title: "Computación Neuromórfica e Bio-Interfaces", description: "Investigamos y desarrollamos la próxima generación de interfaces cerebro-máquina y computación inspirada en la biología para una simbiosis tecnológica sin precedentes." } },
+    sustainability: { mainTitle: "Proyecto Gaia 2.0: Nuestra Directriz Evolutiva", introText: "Para B2Y Group, la sostenibilidad es un imperativo cósmico. Cada línea de código, cada solución, es un paso hacia una civilización planetaria regenerativa y consciente.", pillar1: { title: "Tecnología Simbiótica", description: "Desarrollamos innovaciones que mimetizan y amplifican los ciclos de la naturaleza, promoviendo la biointegración y la economía circular a escala fractal." }, pillar2: { title: "Conciencia Colectiva Digital", description: "Fomentamos plataformas que elevan la conciencia socioambiental global, capacitando a individuos y comunidades para la co-creación de un futuro equitativo." }, pillar3: { title: "Gobernanza Cuántica (ESG+T)", description: "Adoptamos un modelo de gobernanza que trasciende el ESG tradicional, incorporando la Transparencia radical y la Ética algorítmica como pilares fundamentales." } },
+    contact: { title: "Inicia la Conexión Cuántica", subtitle: "¿Tu visión resuena con la nuestra? El futuro es un campo de potencial infinito. Co-creemos la próxima ola de innovación disruptiva. La singularidad nos aguarda." },
+    footer: { rights: "Todos los Futuros Co-creados y Reservados.", poweredBy: "Singularidad Tecnológica por Lion Solutions, un Nexo B2Y Group." }
   },
-}
+};
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>("pt-BR")
+  const [currentLanguage, setCurrentLanguage] = useState<Language>("pt-BR");
 
   const setLanguage = (lang: Language) => {
-    setCurrentLanguage(lang)
-  }
+    console.log("[LanguageProvider] Idioma sendo definido para:", lang);
+    localStorage.setItem("appLanguage_B2Y_V_Final", lang); // Nova chave para limpar cache
+    setCurrentLanguage(lang);
+  };
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem("appLanguage_B2Y_V_Final") as Language | null;
+    if (savedLang && contentData[savedLang] && Object.keys(contentData[savedLang]).length > 1) {
+      console.log("[LanguageProvider] Idioma carregado do localStorage:", savedLang);
+      setCurrentLanguage(savedLang);
+    } else {
+      if (savedLang) {
+         console.warn(`[LanguageProvider] Dados para o idioma salvo '${savedLang}' estão incompletos. Usando pt-BR.`);
+         localStorage.removeItem("appLanguage_B2Y_V_Final");
+      } else {
+        console.log("[LanguageProvider] Nenhum idioma salvo, usando pt-BR como padrão.");
+      }
+      setCurrentLanguage("pt-BR");
+    }
+  }, []);
+
+  const activeContent = (contentData[currentLanguage] && Object.keys(contentData[currentLanguage]).length > 1)
+                        ? contentData[currentLanguage]
+                        : contentData["pt-BR"];
 
   return (
-    <LanguageContext.Provider
-      value={{
-        currentLanguage,
-        setLanguage,
-        content: contentData[currentLanguage],
-      }}
-    >
+    <LanguageContext.Provider value={{ currentLanguage, setLanguage, content: activeContent }}>
       {children}
     </LanguageContext.Provider>
-  )
+  );
 }
 
-export function useLanguage() {
-  const context = useContext(LanguageContext)
+export function useLanguage(): LanguageContextType {
+  const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider")
+    throw new Error("useLanguage must be used within a LanguageProvider");
   }
-  return context
+  return context;
 }
-

@@ -1,51 +1,57 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import FooterComponent from "@/components/footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { LanguageProvider } from "@/contexts/language-context";
 
 export const metadata: Metadata = {
-  title: "B2Y | Líder em Soluções Tecnológicas Sustentáveis e Impacto Positivo no Meio Ambiente",
+  title: "B2Y Group | Vanguarda em Soluções Tecnológicas e Sustentabilidade Digital",
   description:
-    "A B2Y é líder no desenvolvimento de soluções tecnológicas inovadoras que impulsionam a sustentabilidade e promovem um impacto positivo no meio ambiente. Transformando o futuro através da tecnologia verde.",
+    "B2Y Group e Lion Solutions: Cocriando o futuro com Inteligência Artificial, Blockchain e tecnologias imersivas para um impacto socioambiental positivo e regenerativo.",
   openGraph: {
-    title: "B2Y | Líder em Soluções Tecnológicas Sustentáveis e Impacto Positivo no Meio Ambiente",
+    title: "B2Y Group | Pioneirismo em Tecnologia Sustentável e Inovação Digital",
     description:
-      "A B2Y é líder no desenvolvimento de soluções tecnológicas inovadoras que impulsionam a sustentabilidade e promovem um impacto positivo no meio ambiente. Transformando o futuro através da tecnologia verde.",
-    url: "https://www.b2ysolution.com",
-    siteName: "B2Y",
+      "Explore o ecossistema B2Y: Da neutralização de carbono com B2Y Carbon à IA preditiva do Genius Loto. Descubra a engenharia de vanguarda da Lion Solutions.",
+    url: "https://www.SEU_DOMINIO.com", // SUBSTITUA
+    siteName: "B2Y Group",
     images: [
       {
-        url: "https://www.b2y.com/images/og-image.jpg",
+        url: "https://www.SEU_DOMINIO.com/og-image-b2y-futuristic.jpg", // SUBSTITUA
         width: 1200,
         height: 630,
-        alt: "B2Y | Soluções Tecnológicas Sustentáveis e Impacto Positivo no Meio Ambiente",
+        alt: "B2Y Group: Futuro da Tecnologia Sustentável",
       },
     ],
     type: "website",
+    locale: "pt_BR",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@B2YTech",
-    title: "B2Y | Líder em Soluções Tecnológicas Sustentáveis e Impacto Positivo no Meio Ambiente",
+    site: "@SEU_TWITTER_HANDLE", // SUBSTITUA
+    title: "B2Y Group: Inovação. Sustentabilidade. Futuro.",
     description:
-      "A B2Y é líder no desenvolvimento de soluções tecnológicas inovadoras que impulsionam a sustentabilidade e promovem um impacto positivo no meio ambiente. Transformando o futuro através da tecnologia verde.",
-    images: ["https://www.b2y.com/images/og-image.jpg"],
+      "Junte-se à revolução tecnológica com B2Y Group e Lion Solutions. Soluções que definem o amanhã.",
+    images: ["https://www.SEU_DOMINIO.com/twitter-image-b2y-futuristic.jpg"], // SUBSTITUA
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
-  viewport: "width=device-width, initial-scale=1.0",
+  icons: { // Next.js gerencia a maioria dos ícones a partir daqui
+    icon: "/favicon.ico", // Deve estar em /public
+    shortcut: "/favicon-16x16.png", // Deve estar em /public
+    apple: "/apple-touch-icon.png",   // Deve estar em /public
+  },
+  manifest: "/site.webmanifest", // Deve estar em /public
 };
 
 export default function RootLayout({
@@ -54,30 +60,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable} scroll-smooth`}>
+      {/* A tag <head> é preenchida pelo Next.js com base no objeto 'metadata' e outros otimizadores.
+        Colocar tags manualmente aqui pode levar a conflitos ou ao erro de whitespace.
+        As tags essenciais como manifest, theme-color e ícones são melhor gerenciadas
+        pelo objeto 'metadata' ou por arquivos na pasta /public.
+      */}
       <head>
-        <meta charSet="UTF-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="robots" content="index, follow" />
-        <link
-          rel="icon"
-          href="/favicon.ico"
-          type="image/x-icon"
-        />
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="description" content="Soluções tecnológicas inovadoras e sustentáveis para um futuro mais verde e sustentável" />
-        <meta name="keywords" content="líder em tecnologia sustentável, soluções ambientais, impacto positivo, inovação verde, sustentabilidade, futuro verde, tecnologia para o meio ambiente" />
+        {/* Mantenha esta seção <head> o mais limpa possível. */}
+        {/* O Next.js injetará as tags meta do objeto 'metadata' aqui. */}
+        {/* Se precisar de tags <link> ou <script> específicas que não podem ir no metadata, adicione-as com cuidado. */}
+        {/* Exemplo: <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" /> */}
+        {/* A tag theme-color pode ser definida no metadata ou aqui se necessário. */}
+        <meta name="theme-color" content="#065f46" />
+        {/* O manifest já está no objeto metadata.icons, então esta linha pode ser redundante, mas não deve causar o erro de whitespace. */}
+        {/* <link rel="manifest" href="/site.webmanifest" /> */}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-emerald-800 to-emerald-500` } >
-
-        {children}
-        <script src="https://static.elfsight.com/platform/platform.js" async></script>
+      <body className={`font-sans antialiased bg-gray-950 selection:bg-emerald-500 selection:text-white`}>
+        <LanguageProvider>
+          <div id="root-container" className="flex flex-col min-h-screen">
+            <div className="flex-grow">
+              {children}
+            </div>
+            <FooterComponent />
+          </div>
+        </LanguageProvider>
+        
+        <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
         <div className="elfsight-app-0f3273d0-4429-4263-b4b1-d3a8e03063fb" data-elfsight-app-lazy></div>
-        <div>
-          <FooterComponent />
-        </div>
-
       </body>
     </html>
   );

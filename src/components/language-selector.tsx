@@ -1,90 +1,107 @@
-"use client"
+// src/components/language-selector.tsx
+'use client';
 
-import Image from "next/image"
-import { Card } from "@/components/ui/card"
-import { useLanguage } from "@/contexts/language-context"
-import type { Language } from "@/contexts/language-context"
-import background from "@/components/assets/view-green-forest-trees-with-co2.jpg"
+import Image from "next/image";
+import { Card } from "@/components/ui/card";
+import { useLanguage, type Language } from '@/contexts/language-context';
+
+// ASSET DE FUNDO - Verifique se este caminho está correto
+import FundoSeletor from "@/components/assets/digital-screen-with-environment-day.jpg";
+
+interface LanguageSelectorProps {
+  onLanguageSelect: () => void;
+}
+
 interface LanguageOption {
-  code: Language
-  label: string
-  flag: string
+  code: Language;
+  name: string;
+  flag: string;
 }
 
 const languages: LanguageOption[] = [
-  {
-    code: "pt-BR",
-    label: "Português",
-    flag: "https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg",
-  },
-  {
-    code: "en-US",
-    label: "English",
-    flag: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
-  },
-  {
-    code: "es-ES",
-    label: "Español",
-    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Flag_of_the_First_Spanish_Republic.svg/1024px-Flag_of_the_First_Spanish_Republic.svg.png",
-  },
-]
-
-interface LanguageSelectorProps {
-  onLanguageSelect: () => void
-}
+  { code: "pt-BR", name: "Português (Brasil)", flag: "https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg" },
+  { code: "en-US", name: "English (USA)", flag: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" },
+  { code: "es-ES", name: "Español (España)", flag: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg" },
+];
 
 export function LanguageSelector({ onLanguageSelect }: LanguageSelectorProps) {
-  const { setLanguage } = useLanguage()
+  const { setLanguage, currentLanguage } = useLanguage();
 
-  const handleLanguageSelect = (lang: Language) => {
-    setLanguage(lang)
-    onLanguageSelect()
-  }
+  const handleSelect = (langCode: Language) => {
+    console.log(`[LanguageSelector] Idioma ATUAL no contexto ANTES de setar: ${currentLanguage}`);
+    console.log(`[LanguageSelector] Botão clicado, tentando definir idioma para: ${langCode}`);
+    setLanguage(langCode);
+    console.log("[LanguageSelector] Chamando onLanguageSelect para mudar a etapa na Page...");
+    onLanguageSelect();
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Usando Next.js Image para o fundo */}
-      <div className="absolute inset-0">
+    <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 z-0">
         <Image
-          src={background}
-          alt="Fundo Futurista"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-          className="z-0"
+          src={FundoSeletor}
+          alt="Tecnologia e Natureza se encontram no ecossistema B2Y"
+          fill // NOVA PROP
+          className="object-cover opacity-30 blur-sm" // NOVA CLASSE
+          priority
+          sizes="100vw" // Adicionado para otimização com 'fill'
         />
       </div>
-
-      <div className="text-center space-y-8 px-6 py-8 bg-black/60 rounded-2xl shadow-xl z-10">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-lime-300">
-            Bem-vindo à Lion Solution & B2Y Group
+      <div className="absolute inset-0 z-10 bg-gradient-to-br from-gray-950/80 via-emerald-950/60 to-gray-950/80"></div>
+      <div className="relative z-20 text-center space-y-10 md:space-y-12 px-4 animate-fadeInUp">
+        <div className="space-y-3">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white text-glow-emerald tracking-tight">
+            Conectando Realidades, <span className="text-emerald-400">Desbravando o Amanhã</span>.
           </h1>
-          <p className="text-lg text-white/80">Selecione seu idioma:</p>
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-light">
+            Escolha seu portal de imersão no universo de inovação B2Y Group & Lion Solutions.
+          </p>
         </div>
-
-        <div className="flex flex-col sm:flex-row gap-6 items-center justify-center animate-fadeIn">
+        <div className="flex flex-col sm:flex-row gap-6 md:gap-8 items-center justify-center">
           {languages.map((lang) => (
-            <Card
+            <LanguageButton
               key={lang.code}
-              className="p-4 hover:scale-110 hover:rotate-2 hover:shadow-[0_10px_20px_rgba(0,0,0,0.3),0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-500 ease-in-out cursor-pointer rounded-xl border-2 border-transparent bg-gradient-to-r from-green-600 to-lime-300 bg-opacity-20 backdrop-blur-lg filter"
-              onClick={() => handleLanguageSelect(lang.code)}
-            >
-              <div className="w-32 space-y-3">
-                <div className="relative h-24 w-full border-2 border-gray-700 rounded-lg overflow-hidden">
-                  <Image
-                    src={lang.flag || "/placeholder.svg"}
-                    alt={`${lang.label} flag`}
-                    fill
-                    className="object-cover transition-transform duration-500 hover:scale-110"
-                  />
-                </div>
-                <p className="text-gray-300 font-semibold">{lang.label}</p>
-              </div>
-            </Card>
+              flagUrl={lang.flag}
+              languageName={lang.name}
+              onClick={() => handleSelect(lang.code)}
+            />
           ))}
         </div>
       </div>
     </div>
-  )
+  );
+}
+
+interface LanguageButtonProps {
+  flagUrl: string;
+  languageName: string;
+  onClick: () => void;
+}
+
+function LanguageButton({ flagUrl, languageName, onClick }: LanguageButtonProps) {
+  return (
+    <Card
+      className="group p-1 bg-white/5 backdrop-blur-lg border border-emerald-500/40 rounded-xl shadow-2xl hover:bg-emerald-500/15 transition-all duration-300 cursor-pointer w-52 transform hover:scale-110 hover:shadow-emerald-400/30"
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
+    >
+      <div className="w-full space-y-4 p-4">
+        <div className="relative h-28 w-full border-2 border-gray-700/60 group-hover:border-emerald-400/70 rounded-lg overflow-hidden shadow-inner transition-all duration-300">
+          <Image
+            src={flagUrl}
+            alt={`${languageName} flag`}
+            fill // NOVA PROP
+            className="object-cover rounded-md transition-transform duration-300 group-hover:scale-105" // NOVA CLASSE
+            sizes="(max-width: 640px) 52w, (max-width: 1024px) 33vw, 208px" // Ajuste 'sizes' conforme necessário
+            // unoptimized={flagUrl.endsWith('.svg')} // Pode ser necessário para SVGs remotos
+          />
+        </div>
+        <p className="text-gray-200 font-semibold text-center text-lg group-hover:text-emerald-300 transition-colors">
+          {languageName}
+        </p>
+      </div>
+    </Card>
+  );
 }
