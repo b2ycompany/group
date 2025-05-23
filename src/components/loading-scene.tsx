@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 // Certifique-se que este é o logo que você quer usar aqui.
 // Se for o combinado, use o nome correto, ex: B2Y_Lion_Solutions_Logo_White.svg
-import LogoToUseInSplash from '@/components/assets/B2Y BUSINESS 2 Y U.svg'; 
+import LogoToUseInSplash from '@/components/assets/logocorp.png'; 
 import { Zap, Leaf, Cpu, Lightbulb, Network, HardDrive, Brain, ShieldCheck } from 'lucide-react'; // Adicionei Brain e ShieldCheck para variedade
 
 interface LoadingSceneProps {

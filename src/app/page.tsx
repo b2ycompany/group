@@ -13,7 +13,7 @@ import { Navigation } from '@/components/navigation';
 import Image from 'next/image';
 
 // --- ASSETS (AJUSTE OS NOMES E CAMINHOS CONFORME SUA PASTA) ---
-import LogoB2YGroup from '@/components/assets/B2Y BUSINESS 2 Y U.svg'; // Seu logo principal
+import LogoB2YGroup from '@/components/assets/logocorp_redondo.png'; // Seu logo principal
 import ImagemHeroGrupo from '@/components/assets/high-tech-view-futuristic-earth.jpg';
 import ImagemHeroCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg';
 import ImagemHeroTecnologia from '@/components/assets/digital-screen-with-environment-day.jpg';
