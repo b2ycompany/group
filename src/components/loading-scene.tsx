@@ -66,19 +66,16 @@ export function LoadingScene({ onLoadingComplete }: LoadingSceneProps) {
   const calculateProgress = () => {
     if (!progressBarVisible || currentMessageIndex < 0) return 0;
     
-    let timeForDisplayedMessages = 0;
-    // Soma a duração das mensagens já totalmente exibidas
-    for(let i = 0; i < currentMessageIndex; i++) { // <= currentMessageIndex para incluir a atual parcialmente
-        timeForDisplayedMessages += bootSequenceMessages[i].duration;
-    }
-    // Adiciona uma proporção da mensagem atual se ela estiver ativa
-    // Para uma barra mais suave, seria necessário um timer separado atualizando a cada frame.
-    // Esta abordagem atualiza a barra quando uma nova mensagem começa.
+    // Correção: Simplificando o cálculo do progresso, removendo 'timeElapsed' não utilizada.
+    // O progresso agora é baseado puramente no índice da mensagem atual em relação ao total de mensagens.
     if (ActiveMessage) {
         return ((currentMessageIndex + 1) / bootSequenceMessages.length) * 100;
     }
-    return ((currentMessageIndex) / bootSequenceMessages.length) * 100;
-
+    // Se não houver ActiveMessage (por exemplo, currentMessageIndex é -1, mas progressBarVisible é true),
+    // ou se currentMessageIndex estourar o array (não deveria acontecer com a lógica atual).
+    // Para o caso de currentMessageIndex ser -1 e progressBarVisible ser true, o progresso é 0.
+    // Se currentMessageIndex for o último índice, será 100%.
+    return ((currentMessageIndex +1 ) / bootSequenceMessages.length) * 100;
   };
   const progressBarWidth = calculateProgress();
 
