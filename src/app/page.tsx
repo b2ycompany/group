@@ -3,29 +3,28 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Leaf, Globe, BatteryCharging, Users as UsersIcon, Briefcase, HeartPulse, Cpu, Building, Award,
-  Lightbulb, ShieldCheck, TrendingUp, Zap, Network, Brain, ArrowRightCircle, BarChartBig, Code2, BriefcaseBusiness, DollarSign, UsersRound
-} from 'lucide-react';
+  Leaf, Globe, /* BatteryCharging, */ Users as UsersIcon, /* Briefcase, */ HeartPulse, Cpu, Building, Award,
+  Lightbulb, ShieldCheck, /* TrendingUp, */ Zap, Network, Brain, ArrowRightCircle, BarChartBig, Code2, BriefcaseBusiness, DollarSign, UsersRound
+} from 'lucide-react'; // Removidos BatteryCharging, Briefcase, TrendingUp, Lightbulb (se não usados) - VERIFIQUE SE REALMENTE NÃO USA
 import { useLanguage } from '@/contexts/language-context';
 import { LanguageSelector } from '@/components/language-selector';
 import { LoadingScene } from '@/components/loading-scene';
 import { Navigation } from '@/components/navigation';
 import Image from 'next/image';
 
-// --- ASSETS (AJUSTE OS NOMES E CAMINHOS CONFORME SUA PASTA) ---
-import LogoB2YGroup from '@/components/assets/logocorp_redondo.png'; // Seu logo principal
+// --- ASSETS ---
+import LogoB2YGroup from '@/components/assets/B2Y BUSINESS 2 Y U.svg';
 import ImagemHeroGrupo from '@/components/assets/high-tech-view-futuristic-earth.jpg';
 import ImagemHeroCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg';
 import ImagemHeroTecnologia from '@/components/assets/digital-screen-with-environment-day.jpg';
 import FundoSobreNos from '@/components/assets/group-businesspeople-working-graph-office.jpg';
-// SUGESTÃO: Crie um mockup mais futurista para B2Y Carbon
-import MockupOuImagemB2YCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg'; 
-import FundoSolucoes from '@/components/assets/3447494.jpg'; // Imagem genérica, considere algo mais abstrato/tech
+import MockupOuImagemB2YCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg';
+import FundoSolucoes from '@/components/assets/3447494.jpg';
 import FundoServicos from '@/components/assets/tech-people-trying-achieve-ambitious-sustainability-goals.jpg';
-import FundoTecnologia from '@/components/assets/tech-people-trying-achieve-ambitious-sustainability-goals.jpg'; // Pode variar
+import FundoTecnologia from '@/components/assets/tech-people-trying-achieve-ambitious-sustainability-goals.jpg';
 import FundoSustentabilidade from '@/components/assets/smart-farming-with-agriculture-iot.jpg';
 
-import HeroVideoDialogComponents from '@/components/HeroVideoDialogPlay'; // Verifique o export
+import HeroVideoDialogComponents from '@/components/HeroVideoDialogPlay';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
@@ -72,16 +71,18 @@ const AppCard: React.FC<AppCardProps> = ({ icon, title, description, cta, ctaLin
 const scrollToSectionGlobal = (sectionId: string) => {
   const element = document.getElementById(sectionId);
   if (element) {
-    const headerOffset = 80; // Deve corresponder à altura do seu header fixo (h-20 no Tailwind)
+    const headerOffset = 80;
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
   }
 };
 
+// Tipos para os itens dos arrays que serão mapeados
 interface FeatureItem { title: string; description: string; }
-interface ServiceItem { title: string; description: string; items: string[]; }
+// ServiceItem não era necessária se items é string[], então foi removida.
 interface TechPillarItem { title: string; description: string; }
+
 
 const MainContent: React.FC = () => {
   const { content, currentLanguage } = useLanguage();
@@ -101,6 +102,7 @@ const MainContent: React.FC = () => {
   const technologyItems: TechPillarItem[] = [content.technology.item1, content.technology.item2, content.technology.item3];
   const sustainabilityPillars: TechPillarItem[] = [content.sustainability.pillar1, content.sustainability.pillar2, content.sustainability.pillar3];
 
+
   return (
     <div className="text-gray-100 overflow-x-hidden">
       <header className="fixed top-0 w-full bg-gray-950/80 backdrop-blur-xl z-40 shadow-2xl border-b border-gray-700/50">
@@ -114,7 +116,7 @@ const MainContent: React.FC = () => {
         </div>
       </header>
 
-      <main className="pt-20"> {/* Padding para compensar o header fixo */}
+      <main className="pt-20">
         <section id="hero-swiper" className="relative w-full h-[calc(100vh-80px)] shadow-lg">
            <div className="w-full h-full overflow-hidden">
             <Swiper
@@ -142,22 +144,22 @@ const MainContent: React.FC = () => {
                   <div className="absolute inset-0 flex items-center justify-center p-4">
                     <div className="bg-black/60 backdrop-blur-lg p-6 sm:p-10 md:p-14 rounded-xl shadow-2xl text-center max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl border border-white/10">
                       <h1 
-                        key={`${slide.id}-title-${currentLanguage}`} // Key para reativar animação na troca de idioma
+                        key={`${slide.id}-title-${currentLanguage}`}
                         className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-emerald-400 drop-shadow-xl mb-5 md:mb-8 leading-tight animate-fadeInUp"
-                        style={{ animationDelay: '0.2s' }} // Delay para o título
+                        style={{ animationDelay: '0.2s' }}
                       >
                         {slide.title}
                       </h1>
                       <p 
                         className="text-md sm:text-lg md:text-xl text-white/90 mt-4 mb-8 md:mb-10 leading-relaxed animate-fadeInUp"
-                        style={{ animationDelay: '0.5s' }} // Delay para a descrição
+                        style={{ animationDelay: '0.5s' }}
                       >
                         {slide.description}
                       </p>
                       <button
                         onClick={() => scrollToSectionGlobal(slide.buttonLink)}
                         className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-lg text-md sm:text-lg font-semibold shadow-xl hover:shadow-emerald-400/50 transition-all transform hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 animate-fadeInUp futuristic-hover"
-                        style={{ animationDelay: '0.8s' }} // Delay para o botão
+                        style={{ animationDelay: '0.8s' }}
                       >
                         {slide.buttonText} <ArrowRightCircle size={22} className="inline ml-2" />
                       </button>
@@ -230,7 +232,6 @@ const MainContent: React.FC = () => {
               {content.otherSolutions.title}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-              {/* Adicionado delay de animação para cada card */}
               <AppCard className="futuristic-hover animate-fadeInUp animation-delay-200" icon={<BarChartBig />} title={content.solutions.b2ySales.title} description={content.solutions.b2ySales.description} cta={content.buttons.learnMore} ctaLink={content.solutions.b2ySales.link || "#"} />
               <AppCard className="futuristic-hover animate-fadeInUp animation-delay-300" icon={<BriefcaseBusiness />} title={content.solutions.jbJuridico.title} description={content.solutions.jbJuridico.description} cta={content.buttons.learnMore} ctaLink={content.solutions.jbJuridico.link || "#"} />
               <AppCard className="futuristic-hover animate-fadeInUp animation-delay-400" icon={<HeartPulse />} title={content.solutions.fthGestao.title} description={content.solutions.fthGestao.description} cta={content.buttons.learnMore} ctaLink={content.solutions.fthGestao.link || "#"} />
@@ -363,7 +364,7 @@ const Page: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<'language' | 'loading' | 'main'>('language');
   
   useEffect(() => {
-    // MANTENHA ESTA LINHA COMENTADA PARA O FLUXO COMPLETO
+    // MANTENHA COMENTADO PARA TESTAR O FLUXO COMPLETO
     // setCurrentStep('main'); 
   }, []);
 
