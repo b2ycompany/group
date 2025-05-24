@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
-import LogoMobileMenu from '@/components/assets/B2Y BUSINESS 2 Y U.svg';
+import LogoMobileMenu from '@/components/assets/logocorp_redondo.png';
 
 const scrollToSection = (sectionId: string, setIsOpen?: (isOpen: boolean) => void) => {
   console.log("[Navigation] Tentando scroll para:", sectionId);
