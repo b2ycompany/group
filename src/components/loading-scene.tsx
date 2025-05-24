@@ -3,7 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import LogoB2YSplash from '@/components/assets/logocorp.png'; 
+// Usando seu logo redondo
+import LogoB2YSplash from '@/components/assets/logocorp_redondo.png'; 
 import { Zap, Leaf, Cpu, Lightbulb, Network, HardDrive, Brain, ShieldCheck } from 'lucide-react';
 
 interface LoadingSceneProps {
@@ -65,16 +66,9 @@ export function LoadingScene({ onLoadingComplete }: LoadingSceneProps) {
   
   const calculateProgress = () => {
     if (!progressBarVisible || currentMessageIndex < 0) return 0;
-    
-    // Correção: Simplificando o cálculo do progresso, removendo 'timeElapsed' não utilizada.
-    // O progresso agora é baseado puramente no índice da mensagem atual em relação ao total de mensagens.
     if (ActiveMessage) {
         return ((currentMessageIndex + 1) / bootSequenceMessages.length) * 100;
     }
-    // Se não houver ActiveMessage (por exemplo, currentMessageIndex é -1, mas progressBarVisible é true),
-    // ou se currentMessageIndex estourar o array (não deveria acontecer com a lógica atual).
-    // Para o caso de currentMessageIndex ser -1 e progressBarVisible ser true, o progresso é 0.
-    // Se currentMessageIndex for o último índice, será 100%.
     return ((currentMessageIndex +1 ) / bootSequenceMessages.length) * 100;
   };
   const progressBarWidth = calculateProgress();
@@ -104,16 +98,22 @@ export function LoadingScene({ onLoadingComplete }: LoadingSceneProps) {
 
       <div className={`relative z-20 flex flex-col items-center text-center px-4 w-full`}>
         <div 
-            className={`mb-10 md:mb-12 transform transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${logoVisible ? 'opacity-100 scale-100 blur-0 animate-logoPulseSlight' : 'opacity-0 scale-90 blur-md'}`}
+            className={`mb-10 md:mb-12 transform transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] 
+                        ${logoVisible ? 'opacity-100 scale-100 blur-0 animate-logoPulseSlight' : 'opacity-0 scale-90 blur-md'}`}
         >
-          <Image 
-            src={LogoB2YSplash} 
-            alt="B2Y Group & Lion Solutions" 
-            width={320} 
-            height={90} 
-            priority 
-            className="filter_custom_glow"
-          />
+          {/* Wrapper para o logo redondo e tamanho ajustado */}
+          <div className="w-44 h-44 md:w-52 md:h-52 rounded-full overflow-hidden flex items-center justify-center 
+                          bg-gray-900/20 backdrop-blur-sm border-2 border-emerald-500/60 shadow-2xl animate-subtlePulse" 
+               style={{animationDelay: '1s'}}> 
+            <Image 
+              src={LogoB2YSplash} 
+              alt="B2Y Group & Lion Solutions" 
+              width={160} // Ajuste para o conteúdo do seu PNG redondo
+              height={160} // Manter proporção 1:1 para círculo
+              priority 
+              className="filter_custom_glow p-2" // Adicione um pequeno padding se o PNG não tiver respiro interno
+            />
+          </div>
         </div>
 
         <div className="h-10 md:h-12 flex items-center justify-center overflow-hidden w-full max-w-lg md:max-w-xl mb-8">

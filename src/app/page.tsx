@@ -5,8 +5,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Leaf, Globe, Users as UsersIcon, HeartPulse, Cpu, Building, Award,
   ShieldCheck, Zap, Network, Brain, ArrowRightCircle, BarChartBig, Code2, BriefcaseBusiness, DollarSign, UsersRound
-  // Ícones removidos se não usados: BatteryCharging, Briefcase, Lightbulb, TrendingUp
-  // Se precisar deles, descomente ou adicione-os de volta e use-os no JSX.
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { LanguageSelector } from '@/components/language-selector';
@@ -15,12 +13,12 @@ import { Navigation } from '@/components/navigation';
 import Image from 'next/image';
 
 // --- ASSETS ---
-import LogoB2YGroup from '@/components/assets/logocorp_redondo.png';
+import LogoHeader from '@/components/assets/logocorp_redondo.png'; // SEU LOGO REDONDO PARA O HEADER
 import ImagemHeroGrupo from '@/components/assets/high-tech-view-futuristic-earth.jpg';
 import ImagemHeroCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg';
 import ImagemHeroTecnologia from '@/components/assets/digital-screen-with-environment-day.jpg';
 import FundoSobreNos from '@/components/assets/group-businesspeople-working-graph-office.jpg';
-import MockupOuImagemB2YCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg';
+import MockupOuImagemB2YCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg'; // Ou seu mockup real
 import FundoSolucoes from '@/components/assets/3447494.jpg';
 import FundoServicos from '@/components/assets/tech-people-trying-achieve-ambitious-sustainability-goals.jpg';
 import FundoTecnologia from '@/components/assets/tech-people-trying-achieve-ambitious-sustainability-goals.jpg';
@@ -73,7 +71,7 @@ const AppCard: React.FC<AppCardProps> = ({ icon, title, description, cta, ctaLin
 const scrollToSectionGlobal = (sectionId: string) => {
   const element = document.getElementById(sectionId);
   if (element) {
-    const headerOffset = 80;
+    const headerOffset = 80; // Altura do header fixo (h-20 no Tailwind)
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
@@ -82,7 +80,6 @@ const scrollToSectionGlobal = (sectionId: string) => {
 
 interface FeatureItem { title: string; description: string; }
 interface TechPillarItem { title: string; description: string; }
-
 
 const MainContent: React.FC = () => {
   const { content, currentLanguage } = useLanguage();
@@ -102,14 +99,23 @@ const MainContent: React.FC = () => {
   const technologyItems: TechPillarItem[] = [content.technology.item1, content.technology.item2, content.technology.item3];
   const sustainabilityPillars: TechPillarItem[] = [content.sustainability.pillar1, content.sustainability.pillar2, content.sustainability.pillar3];
 
-
   return (
     <div className="text-gray-100 overflow-x-hidden">
       <header className="fixed top-0 w-full bg-gray-950/80 backdrop-blur-xl z-40 shadow-2xl border-b border-gray-700/50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div>
             <a href="#hero-swiper" onClick={(e) => { e.preventDefault(); scrollToSectionGlobal('hero-swiper'); }} className="cursor-pointer block transform transition-transform hover:scale-105">
-              <Image src={LogoB2YGroup} alt="B2Y Group Logo" width={180} height={50} priority />
+              {/* LOGO REDONDO E AJUSTADO NO HEADER */}
+              <div className="w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center bg-gray-800/30 border border-emerald-600/40 shadow-lg hover:shadow-emerald-500/30 transition-shadow duration-300 p-1">
+                <Image 
+                  src={LogoHeader} 
+                  alt="B2Y Group Logo" 
+                  width={60} // Ajuste para o conteúdo do seu PNG redondo
+                  height={60}
+                  priority 
+                  className="rounded-full" // Garante o formato redondo se o PNG não for transparente
+                />
+              </div>
             </a>
           </div>
           <Navigation />
@@ -135,31 +141,31 @@ const MainContent: React.FC = () => {
                         src={slide.image} 
                         alt={slide.title} 
                         fill 
-                        className="object-cover brightness-50 group-hover:brightness-[0.65] transition-all duration-1000 ease-in-out transform group-hover:scale-105" 
+                        className="object-cover brightness-50 group-hover:brightness-[0.60] transition-all duration-1000 ease-in-out transform group-hover:scale-105" 
                         priority={index === 0} 
                         sizes="100vw"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
                   <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <div className="bg-black/60 backdrop-blur-lg p-6 sm:p-10 md:p-14 rounded-xl shadow-2xl text-center max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl border border-white/10">
+                    <div className="bg-black/50 backdrop-blur-lg p-6 sm:p-10 md:p-14 rounded-2xl shadow-2xl text-center max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl border-2 border-emerald-500/20">
                       <h1 
                         key={`${slide.id}-title-${currentLanguage}`}
-                        className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-emerald-400 drop-shadow-xl mb-5 md:mb-8 leading-tight animate-fadeInUp"
-                        style={{ animationDelay: '0.2s' }}
+                        className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-emerald-300 text-glow-emerald mb-5 md:mb-8 leading-tight animate-fadeInUp"
+                        style={{ animationDelay: '0.4s' }}
                       >
                         {slide.title}
                       </h1>
                       <p 
-                        className="text-md sm:text-lg md:text-xl text-white/90 mt-4 mb-8 md:mb-10 leading-relaxed animate-fadeInUp"
-                        style={{ animationDelay: '0.5s' }}
+                        className="text-md sm:text-lg md:text-xl text-gray-200/90 mt-4 mb-8 md:mb-10 leading-relaxed animate-fadeInUp"
+                        style={{ animationDelay: '0.7s' }}
                       >
                         {slide.description}
                       </p>
                       <button
                         onClick={() => scrollToSectionGlobal(slide.buttonLink)}
-                        className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-lg text-md sm:text-lg font-semibold shadow-xl hover:shadow-emerald-400/50 transition-all transform hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 animate-fadeInUp futuristic-hover"
-                        style={{ animationDelay: '0.8s' }}
+                        className="bg-gradient-to-r from-emerald-500 via-green-500 to-emerald-400 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-lg text-md sm:text-lg font-semibold shadow-xl hover:shadow-emerald-300/40 transition-all transform hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 animate-fadeInUp futuristic-hover"
+                        style={{ animationDelay: '1s' }}
                       >
                         {slide.buttonText} <ArrowRightCircle size={22} className="inline ml-2" />
                       </button>
@@ -184,7 +190,7 @@ const MainContent: React.FC = () => {
                 <p className="animate-fadeInUp animation-delay-300">{content.about.text2}</p>
                 {content.about.text3 && <p className="animate-fadeInUp animation-delay-400">{content.about.text3}</p>}
             </div>
-            <div className="max-w-3xl lg:max-w-4xl mx-auto mt-10 md:mt-16 rounded-2xl overflow-hidden shadow-2xl border-2 border-emerald-500/30 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-emerald-400/30 animate-fadeInUp animation-delay-500">
+            <div className="max-w-3xl lg:max-w-4xl mx-auto mt-10 md:mt-16 rounded-2xl overflow-hidden shadow-2xl border-2 border-emerald-500/30 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-emerald-400/30 animate-fadeInUp animation-delay-500 futuristic-hover">
               <HeroVideoDialogComponents.HeroVideoDialogDemo />
             </div>
           </div>
@@ -204,7 +210,7 @@ const MainContent: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-8 animate-fadeInUp animation-delay-400">
-                {b2yCarbonFeatures.map((feature, index) => ( // Não precisa mais de tipo explícito aqui, pois b2yCarbonFeatures já é tipado
+                {b2yCarbonFeatures.map((feature, index) => (
                   <div key={index} className="p-8 bg-gray-800/50 backdrop-blur-md rounded-2xl border border-emerald-500/20 transition-all duration-300 hover:border-emerald-400/60 hover:shadow-emerald-400/25 transform hover:-translate-y-1 futuristic-hover">
                     <h3 className="text-2xl sm:text-3xl font-bold text-emerald-300 mb-4 tracking-tight">{feature.title}</h3>
                     <p className="text-gray-300 leading-relaxed text-lg font-light">{feature.description}</p>
@@ -255,7 +261,7 @@ const MainContent: React.FC = () => {
                 <h3 className="text-3xl font-bold text-emerald-300 mb-6 tracking-tight">{content.services.development.title}</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed font-light">{content.services.development.description}</p>
                 <ul className="space-y-4 text-left text-gray-200 text-lg">
-                  {content.services.development.items.map((item, index) => ( // Tipo string inferido
+                  {content.services.development.items.map((item, index) => (
                     <li key={index} className="flex items-center">
                       <Zap size={22} className="text-emerald-400 mr-4 shrink-0" />
                       <span>{item}</span>
@@ -268,7 +274,7 @@ const MainContent: React.FC = () => {
                 <h3 className="text-3xl font-bold text-emerald-300 mb-6 tracking-tight">{content.services.investment.title}</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed font-light">{content.services.investment.description}</p>
                 <ul className="space-y-4 text-left text-gray-200 text-lg">
-                  {content.services.investment.items.map((item, index) => ( // Tipo string inferido
+                  {content.services.investment.items.map((item, index) => (
                     <li key={index} className="flex items-center">
                       <UsersRound size={22} className="text-emerald-400 mr-4 shrink-0" />
                       <span>{item}</span>
@@ -298,7 +304,7 @@ const MainContent: React.FC = () => {
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mt-6 mb-8 tracking-tight animate-fadeInUp animation-delay-100">{content.technology.title}</h2>
             <p className="text-lg md:text-xl max-w-3xl mx-auto mb-16 md:mb-20 text-gray-300 leading-relaxed font-light animate-fadeInUp animation-delay-200">{content.technology.subtitle}</p>
             <div className="grid md:grid-cols-3 gap-8 md:gap-12">
-              {technologyItems.map((item, index) => ( // Tipo TechPillarItem já definido
+              {technologyItems.map((item, index) => (
                 <div key={index} className="bg-gray-800/40 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-emerald-400/25 futuristic-hover animate-fadeInUp" style={{animationDelay: `${(index * 150) + 300}ms`}}>
                    {index === 0 && <Brain className="w-12 h-12 text-emerald-300 mx-auto mb-5" />}
                    {index === 1 && <ShieldCheck className="w-12 h-12 text-emerald-300 mx-auto mb-5" />}
@@ -325,7 +331,7 @@ const MainContent: React.FC = () => {
               {content.sustainability.introText}
             </p>
             <div className="grid gap-8 md:gap-12 sm:grid-cols-1 md:grid-cols-3 mt-8">
-              {sustainabilityPillars.map((pillar, index) => ( // Tipo TechPillarItem já definido
+              {sustainabilityPillars.map((pillar, index) => (
                 <div key={index} className="flex flex-col p-8 bg-black/50 backdrop-blur-xl border border-emerald-500/30 rounded-3xl shadow-2xl hover:shadow-emerald-400/30 transition-all duration-300 transform hover:scale-105 futuristic-hover animate-fadeInUp" style={{animationDelay: `${(index * 150) + 300}ms`}}>
                   <div className="mb-6 flex items-center justify-center rounded-full bg-emerald-500/20 p-4 w-20 h-20 mx-auto border-2 border-emerald-500/40">
                     {index === 0 && <Zap className="size-10 text-emerald-300" />}

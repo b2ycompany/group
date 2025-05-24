@@ -1,13 +1,14 @@
 // src/components/navigation.tsx
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react"; // Adicionado React
 import { useLanguage } from "@/contexts/language-context";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
-import LogoMobileMenu from '@/components/assets/logocorp.png';
+// Logo para o menu mobile
+import LogoMobileMenu from '@/components/assets/logocorp_redondo.png'; // SEU LOGO REDONDO
 
 const scrollToSection = (sectionId: string, setIsOpen?: (isOpen: boolean) => void) => {
   console.log("[Navigation] Tentando scroll para:", sectionId);
@@ -30,7 +31,7 @@ export function Navigation() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
 
-  const links = [
+  const links = useMemo(() => [
     { id: "hero-swiper", label: content.nav.home },
     { id: "sobre-nos", label: content.nav.aboutUs },
     { id: "b2y-carbon", label: content.nav.b2yCarbon },
@@ -39,7 +40,7 @@ export function Navigation() {
     { id: "tecnologia", label: content.nav.technology },
     { id: "sustentabilidade", label: content.nav.sustainability },
     { id: "fale-conosco", label: content.nav.contact },
-  ];
+  ], [content.nav]);
 
   const handleScroll = useCallback(() => {
     if (window.pageYOffset > 20) {
@@ -71,7 +72,6 @@ export function Navigation() {
     }
 
     setActiveSection(currentSectionId);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [links]);
 
   useEffect(() => {
@@ -82,6 +82,7 @@ export function Navigation() {
 
   return (
     <nav>
+      {/* Mobile Navigation */}
       <div className="md:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
@@ -95,7 +96,16 @@ export function Navigation() {
           </SheetTrigger>
           <SheetContent side="right" className="p-0 bg-gray-950/90 backdrop-blur-2xl text-white border-l-2 border-emerald-500/30 w-[85vw] sm:w-[60vw] flex flex-col shadow-2xl">
             <div className="flex justify-between items-center p-6 border-b border-gray-700/50">
-                <Image src={LogoMobileMenu} alt="B2Y Group Logo" width={140} height={40} />
+                {/* CORREÇÃO AQUI: Usar LogoMobileMenu */}
+                <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center bg-gray-800/30 border border-emerald-700/50">
+                    <Image 
+                        src={LogoMobileMenu} 
+                        alt="B2Y Group Logo" 
+                        width={40} 
+                        height={40}
+                        className="p-0.5"
+                    />
+                </div>
                 <SheetTrigger asChild>
                     <button className="text-gray-400 hover:text-emerald-300 p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 rounded-md" aria-label="Fechar menu">
                         <X size={28} />
@@ -126,6 +136,7 @@ export function Navigation() {
         </Sheet>
       </div>
 
+      {/* Desktop Navigation */}
       <div className="hidden md:flex items-center">
         <ul className="flex gap-x-1 lg:gap-x-2 xl:gap-x-3 items-center">
           {links.map((link) => (

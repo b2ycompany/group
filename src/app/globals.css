@@ -9,21 +9,15 @@
 @layer base {
   html {
     @apply scroll-smooth;
-    font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1; /* Otimizações de ligaduras e estilísticas para Geist */
+    font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
   }
   body {
     @apply bg-gray-950 text-gray-100 antialiased font-sans;
-    /* As variáveis --font-geist-sans e --font-geist-mono são definidas no layout.tsx */
-    /* e aplicadas via classes 'font-sans' e 'font-mono' no tailwind.config.js se você configurou lá, */
-    /* ou diretamente aqui se preferir: */
     font-family: var(--font-geist-sans), sans-serif;
   }
-  /* Para usar a fonte mono especificamente: */
   .font-geist-mono {
     font-family: var(--font-geist-mono), monospace;
   }
-
-  /* Melhorias de acessibilidade para foco */
   *:focus-visible {
     @apply outline-none ring-2 ring-emerald-500 ring-offset-2 ring-offset-gray-950 rounded-md;
   }
@@ -31,16 +25,9 @@
 
 /* 3. Animações Personalizadas e Classes Utilitárias */
 @layer utilities {
-  /* Fade In para Cima */
   @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 80px, 0);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
+    from { opacity: 0; transform: translate3d(0, 80px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
   }
   .animate-fadeInUp {
     animation-name: fadeInUp;
@@ -49,16 +36,13 @@
     animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  /* Pulso Rápido com Glow */
   @keyframes pulseFast {
     0%, 100% {
-      opacity: 1;
-      transform: scale(1);
+      opacity: 1; transform: scale(1);
       filter: drop-shadow(0 0 7px theme('colors.emerald.500')) drop-shadow(0 0 15px theme('colors.emerald.600/70'));
     }
     50% {
-      opacity: 0.85;
-      transform: scale(1.1);
+      opacity: 0.85; transform: scale(1.1);
       filter: drop-shadow(0 0 20px theme('colors.emerald.400')) drop-shadow(0 0 30px theme('colors.emerald.500/70'));
     }
   }
@@ -66,7 +50,6 @@
     animation: pulseFast 2.5s infinite ease-in-out;
   }
 
-  /* Giro Lento */
   @keyframes spinSlow {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -75,147 +58,47 @@
     animation: spinSlow 35s linear infinite;
   }
 
-  /* Gradiente Animado */
   @keyframes animatedGradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
   .bg-animated-gradient {
-    background-size: 300% 300%; /* Aumentado para um movimento mais suave */
+    background-size: 300% 300%;
     animation: animatedGradient 20s ease infinite;
   }
 
-  /* Animação do Carro (LoadingScene) */
-  @keyframes driveCar {
-    0% { transform: translateX(-180%) scale(0.8); opacity: 0; } /* Começa mais longe e menor */
-    20% { transform: translateX(-60%) scale(0.95); opacity: 1; } /* Aproxima */
-    45%, 55% { transform: translateX(0) scale(1); opacity: 1; } /* Centro */
-    80% { transform: translateX(60%) scale(0.95); opacity: 1; } /* Começa a sair */
-    100% { transform: translateX(180%) scale(0.8); opacity: 0; } /* Sai mais longe */
-  }
-  .animate-driveCar {
-    animation: driveCar 3.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; /* Easing e duração ajustados */
-  }
-
-  /* Animação de Digitação (para LoadingScene e títulos no Hero) */
-  @keyframes typingEffect {
-    from { width: 0; }
-    to { width: 100%; }
-  }
-  @keyframes blinkCaretEffect {
-    from, to { border-color: transparent; }
-    50% { border-color: theme('colors.emerald.400'); }
-  }
-  .animate-typing { /* Para textos mais longos */
-    overflow: hidden;
-    border-right: .12em solid theme('colors.emerald.400');
-    white-space: nowrap;
-    letter-spacing: .075em;
-    animation: 
-      typingEffect 3s steps(35, end) 0.5s forwards, /* Delay para começar */
-      blinkCaretEffect .75s step-end infinite;
-    animation-delay: 0.5s; /* Delay para o conjunto de animações */
-  }
-  .animate-typing-short { /* Para textos mais curtos (loading) */
-    overflow: hidden;
-    border-right: .10em solid theme('colors.emerald.400');
-    white-space: nowrap;
-    letter-spacing: .075em;
-    animation: 
-      typingEffect 2.5s steps(25, end) forwards,
-      blinkCaretEffect .65s step-end infinite;
-  }
-
-  /* Materialização do Logo (LoadingScene) */
-  @keyframes logoMaterialize {
-    0% { opacity: 0; transform: scale(0.7) translateY(30px) perspective(500px) rotateX(-20deg); filter: blur(8px); }
-    60% { opacity: 0.8; transform: scale(1.05) translateY(-5px) perspective(500px) rotateX(5deg); filter: blur(1px); }
-    100% { opacity: 1; transform: scale(1) translateY(0px) perspective(500px) rotateX(0deg); filter: blur(0px); }
-  }
-  .animate-logoMaterialize {
-    animation: logoMaterialize 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; /* Easing suave */
-    animation-delay: 0.1s;
-  }
-
-  /* Energizar Fundo (LoadingScene) */
-  @keyframes backgroundEnergize {
-    0% { background-color: theme('colors.gray.950'); opacity: 0.8; }
-    40% { background-color: theme('colors.emerald.950'); opacity: 1; }
-    100% { background-color: theme('colors.gray.950'); opacity: 0.8; }
-  }
-  .animate-backgroundEnergize {
-     animation: backgroundEnergize 4.5s ease-in-out forwards; /* Duração alinhada com a splash */
-  }
-
-  /* Pulso Sutil (LoadingScene) */
-   @keyframes subtlePulse {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-  }
-  .animate-subtlePulse {
-    animation: subtlePulse 2.5s infinite ease-in-out;
-  }
-  
-  /* Linhas de Energia (LoadingScene - requer SVG no TSX) */
-  @keyframes energizeLines {
-    0% { stroke-dashoffset: 1000; opacity: 0; }
-    30% { opacity: 0.7; } /* Começa a aparecer */
-    70% { stroke-dashoffset: 0; opacity: 0.7; } /* Linha completa */
-    100% { stroke-dashoffset: 0; opacity: 0; } /* Fade out */
-  }
-  .animate-energizeLines {
-    animation: energizeLines 3s ease-in-out infinite; /* Loop para efeito contínuo */
-  }
-
-  /* Efeito de Brilho no Texto (Revisado) */
   .text-glow-emerald {
     text-shadow: 
-      0 0 5px theme('colors.emerald.500/70'),
-      0 0 10px theme('colors.emerald.500/50'),
-      0 0 15px theme('colors.emerald.600/30'),
-      0 0 20px theme('colors.emerald.700/20');
+      0 0 8px theme('colors.emerald.400/90'),
+      0 0 12px theme('colors.emerald.500/70'),
+      0 0 20px theme('colors.emerald.600/50');
   }
 
-  /* Efeito de hover futurista para cards/botões */
   .futuristic-hover {
-    position: relative; /* Necessário para o pseudo-elemento */
-    overflow: hidden; /* Para conter o brilho */
+    position: relative;
+    overflow: hidden;
     transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
   .futuristic-hover::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0;
     background: radial-gradient(circle, theme('colors.emerald.500/25') 0%, transparent 60%);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(1);
     transition: width 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), height 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.45s ease;
-    opacity: 0;
-    z-index: 0;
+    opacity: 0; z-index: 0;
   }
-  .futuristic-hover:hover::before {
-    width: 350px; /* Aumenta o tamanho do brilho */
-    height: 350px;
-    opacity: 1;
-  }
+  .futuristic-hover:hover::before { width: 350px; height: 350px; opacity: 1; }
   .futuristic-hover:hover {
-    transform: translateY(-6px) scale(1.03); /* Efeito de elevação mais pronunciado */
+    transform: translateY(-6px) scale(1.03);
     box-shadow: 
       0 12px 24px theme('colors.emerald.950/60'), 
       0 0 20px theme('colors.emerald.700/40'),
-      inset 0 0 5px theme('colors.emerald.600/20'); /* Sombra interna sutil */
+      inset 0 0 5px theme('colors.emerald.600/20');
   }
-  /* Garante que o conteúdo do card fique acima do pseudo-elemento ::before */
-  .futuristic-hover > * { 
-    position: relative;
-    z-index: 1;
-  }
+  .futuristic-hover > * { position: relative; z-index: 1; }
 
-  /* Delay para animações de entrada (se precisar de mais, adicione) */
   .animation-delay-100 { animation-delay: 0.1s; }
   .animation-delay-200 { animation-delay: 0.2s; }
   .animation-delay-300 { animation-delay: 0.3s; }
@@ -223,185 +106,103 @@
   .animation-delay-500 { animation-delay: 0.5s; }
   .animation-delay-600 { animation-delay: 0.6s; }
   .animation-delay-800 { animation-delay: 0.8s; }
-}
-
-/* 4. Estilos para a Barra de Rolagem */
-/* Para Webkit (Chrome, Safari, Edge novo) */
-::-webkit-scrollbar {
-  width: 10px; /* Um pouco mais fina */
-}
-::-webkit-scrollbar-track {
-  background: #030712; /* bg-gray-950 */
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, theme('colors.emerald.600'), theme('colors.green.600'));
-  border-radius: 10px;
-  border: 2px solid #030712; /* Cor do track para dar um espaçamento */
-}
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, theme('colors.emerald.500'), theme('colors.green.500'));
-}
-
-/* Para Firefox */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: theme('colors.emerald.500') #030712; /* Cor do thumb e Cor do track */
-}
-@keyframes subtleGlow {
-  0%, 100% { filter: drop-shadow(0 0 2px #10b981); }
-  50% { filter: drop-shadow(0 0 8px #10b981); }
-}
-
-.animate-subtleGlow {
-  animation: subtleGlow 3s ease-in-out infinite;
-}
-
-/* src/app/globals.css (adições/modificações) */
-
-@layer utilities {
-  /* ... (suas animações existentes como fadeInUp, pulseFast, spinSlow, text-glow-emerald, animatedGradient) ... */
-
-  /* --- NOVAS ANIMAÇÕES E ESTILOS PARA SPLASHSCREEN "SYSTEM CORE IGNITION" --- */
 
   .holographic-grid {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     background-image:
-      linear-gradient(to right, theme('colors.emerald.700/15') 1px, transparent 1px),
-      linear-gradient(to bottom, theme('colors.emerald.700/15') 1px, transparent 1px);
-    background-size: 40px 40px; /* Tamanho do grid */
+      linear-gradient(to right, theme('colors.emerald.700/10') 1px, transparent 1px),
+      linear-gradient(to bottom, theme('colors.emerald.700/10') 1px, transparent 1px);
+    background-size: 45px 45px;
     opacity: 0;
-    animation: fadeInGrid 2s ease-out forwards, pulseGrid 4s infinite ease-in-out 1s;
+    animation: fadeInGridPulse 7s infinite ease-in-out;
   }
-  @keyframes fadeInGrid {
-    from { opacity: 0; transform: scale(1.2); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  @keyframes pulseGrid {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.6; }
+  @keyframes fadeInGridPulse {
+    0%, 100% { opacity: 0; transform: scale(1.15); }
+    20%, 80% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
   }
 
-  @keyframes dataStreamParticle { /* Partículas subindo e desaparecendo */
-    0% {
-      transform: translateY(100vh) scale(0.1);
-      opacity: 0;
-    }
-    20% {
-      opacity: 1; /* Aparece rápido */
-    }
-    100% {
-      transform: translateY(-100vh) scale(1.5); /* Sobe e aumenta */
-      opacity: 0;
-    }
+  @keyframes splashParticleUpAndFade {
+    0% { transform: translateY(50vh) scale(0.2); opacity: 0; }
+    20% { opacity: 0.7; }
+    100% { transform: translateY(-50vh) scale(1); opacity: 0; }
   }
-  .animate-dataStreamParticle {
-    animation: dataStreamParticle linear infinite;
-  }
-  
-  @keyframes scanlineReveal { /* Efeito de scanline para texto */
-    0% {
-      opacity: 0;
-      clip-path: inset(0 0 100% 0); /* Começa totalmente cortado de baixo */
-      transform: translateY(10px);
-    }
-    20% {
-      opacity: 0.3;
-    }
-    40% {
-      opacity: 1;
-      clip-path: inset(0 0 0% 0); /* Revela completamente */
-      transform: translateY(0);
-    }
-    80% { /* Mantém visível */
-      opacity: 1;
-      clip-path: inset(0 0 0% 0);
-      transform: translateY(0);
-    }
-    100% { /* Desaparece rapidamente */
-      opacity: 0;
-      clip-path: inset(100% 0 0 0); /* Corta de cima */
-      transform: translateY(-10px);
-    }
-  }
-  .animate-scanlineReveal {
-    animation: scanlineReveal ease-in-out forwards; /* A duração será controlada pela mensagem atual */
+  .animate-splashParticle {
+    animation-name: splashParticleUpAndFade;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
-  /* Substitui a logoMaterialize anterior por uma mais suave */
-  @keyframes logoMaterialize {
-    0% { opacity: 0; transform: scale(0.9) translateY(10px); filter: blur(4px); }
-    100% { opacity: 1; transform: scale(1) translateY(0px); filter: blur(0px); }
+  @keyframes logoPulseSlight {
+    0%, 100% { 
+      transform: scale(1); 
+      filter: drop-shadow(0 0 12px theme('colors.emerald.500/70')) brightness(1.1);
+    }
+    50% { 
+      transform: scale(1.04);
+      filter: drop-shadow(0 0 22px theme('colors.emerald.400/90')) brightness(1.25);
+    }
   }
-  .animate-logoMaterialize {
-    animation: logoMaterialize 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-  
-  /* Filtro customizado para glow do logo, se text-glow-emerald não for suficiente para SVG */
-  .filter_custom_glow {
-    filter: drop-shadow(0 0 10px theme('colors.emerald.500/70')) 
-            drop-shadow(0 0 20px theme('colors.emerald.600/50')) 
-            brightness(1.1);
+  .animate-logoPulseSlight {
+    animation: logoPulseSlight 2.8s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
   }
 
-  /* Mantenha/ajuste as animações anteriores como backgroundEnergize e energizeLines se ainda for usar */
-  .animate-backgroundEnergize { /* Ajuste a duração se necessário */
-     animation: backgroundEnergize 4.5s ease-in-out forwards; /* Alinhe com totalSplashDuration */
-  }
-
-  @keyframes energizeLines { /* Para as linhas SVG de fundo */
-    0% { stroke-dashoffset: 1000; opacity: 0; }
-    30% { opacity: 0.5; }
-    70% { stroke-dashoffset: 0; opacity: 0.5; }
-    100% { stroke-dashoffset: 0; opacity: 0; }
-  }
-  .animate-energizeLines {
-    animation: energizeLines 3.5s ease-in-out infinite alternate; /* Alterna para um efeito mais orgânico */
-  }
-  
-  /* Remova as antigas animate-typing e blink-caret se não for mais usar */
-}
-
-/* Adicione ou modifique estas animações no seu globals.css DENTRO de @layer utilities */
-
-@layer utilities {
-  /* ... (suas animações existentes como fadeInUp, pulseFast, spinSlow, text-glow-emerald, animatedGradient, holographic-grid, dataStreamParticle, expandingRing, logoMaterialize, backgroundEnergize, energizeLines ) ... */
-  
-  /* Animação para os textos de status da splashscreen */
   @keyframes scanlineRevealInternal {
-    0% {
-      opacity: 0;
-      transform: translateY(8px) scaleY(0.8);
-      filter: blur(1px);
-    }
-    25% { /* Rápida aparição e estabilização */
-      opacity: 1;
-      transform: translateY(0px) scaleY(1);
-      filter: blur(0px);
-    }
-    75% { /* Mantém visível */
-      opacity: 1;
-      transform: translateY(0px) scaleY(1);
-      filter: blur(0px);
-    }
-    100% { /* Desaparecimento rápido */
-      opacity: 0;
-      transform: translateY(-8px) scaleY(0.8);
-      filter: blur(1px);
-    }
+    0% { opacity: 0; transform: translateY(10px) skewX(-8deg); filter: blur(2px); }
+    25% { opacity: 1; transform: translateY(0px) skewX(0deg); filter: blur(0px); }
+    75% { opacity: 1; transform: translateY(0px) skewX(0deg); filter: blur(0px); }
+    100% { opacity: 0; transform: translateY(-10px) skewX(8deg); filter: blur(2px); }
   }
-  .animate-scanlineRevealInternal { /* Usada no loading-scene.tsx */
+  .animate-scanlineRevealInternal {
     animation-name: scanlineRevealInternal;
-    /* A animation-duration é definida inline no TSX baseada na msg.duration */
-    animation-fill-mode: forwards; /* Mantém o estado final (invisível) */
+    animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
   }
 
-  /* Garanta que filter_custom_glow está definido (já sugeri antes) */
-  .filter_custom_glow {
-    filter: drop-shadow(0 0 10px theme('colors.emerald.500/70')) 
-            drop-shadow(0 0 20px theme('colors.emerald.600/50')) 
-            brightness(1.1);
+  @keyframes logoMaterialize {
+    0% { opacity: 0; transform: scale(0.8) translateY(25px) perspective(800px) rotateX(-25deg); filter: blur(10px) brightness(0.6); }
+    50% { opacity: 0.7; filter: blur(2px) brightness(0.9); }
+    100% { opacity: 1; transform: scale(1) translateY(0px) perspective(800px) rotateX(0deg); filter: blur(0px) brightness(1); }
   }
+  
+  @keyframes backgroundEnergize {
+    0% { background-color: #000000; }
+    30% { background-color: theme('colors.emerald.950/60'); }
+    60% { background-color: theme('colors.emerald.900/80'); }
+    100% { background-color: theme('colors.gray.950'); }
+  }
+  
+  @keyframes energizeLines {
+    0% { stroke-dashoffset: 800; opacity: 0; }
+    25% { opacity: 0.6; }
+    75% { stroke-dashoffset: 0; opacity: 0.6; }
+    100% { stroke-dashoffset: -800; opacity: 0; }
+  }
+  .animate-energizeLines {
+    stroke-dasharray: 800;
+    animation: energizeLines 3.2s ease-in-out infinite alternate;
+  }
+
+  .filter_custom_glow {
+    filter: drop-shadow(0 0 12px theme('colors.emerald.500/80')) 
+            drop-shadow(0 0 25px theme('colors.emerald.600/60')) 
+            brightness(1.2) saturate(1.4);
+  }
+}
+
+/* 4. Estilos para a Barra de Rolagem */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #030712; border-radius: 10px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, theme('colors.emerald.500'), theme('colors.green.500'));
+  border-radius: 10px;
+  border: 2px solid #030712;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, theme('colors.emerald.400'), theme('colors.green.400'));
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.emerald.500') #030712;
 }
