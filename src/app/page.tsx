@@ -3,9 +3,11 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Leaf, Globe, /* BatteryCharging, */ Users as UsersIcon, /* Briefcase, */ HeartPulse, Cpu, Building, Award,
-  Lightbulb, ShieldCheck, /* TrendingUp, */ Zap, Network, Brain, ArrowRightCircle, BarChartBig, Code2, BriefcaseBusiness, DollarSign, UsersRound
-} from 'lucide-react'; // Removidos BatteryCharging, Briefcase, TrendingUp, Lightbulb (se não usados) - VERIFIQUE SE REALMENTE NÃO USA
+  Leaf, Globe, Users as UsersIcon, HeartPulse, Cpu, Building, Award,
+  ShieldCheck, Zap, Network, Brain, ArrowRightCircle, BarChartBig, Code2, BriefcaseBusiness, DollarSign, UsersRound
+  // Ícones removidos se não usados: BatteryCharging, Briefcase, Lightbulb, TrendingUp
+  // Se precisar deles, descomente ou adicione-os de volta e use-os no JSX.
+} from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { LanguageSelector } from '@/components/language-selector';
 import { LoadingScene } from '@/components/loading-scene';
@@ -78,9 +80,7 @@ const scrollToSectionGlobal = (sectionId: string) => {
   }
 };
 
-// Tipos para os itens dos arrays que serão mapeados
 interface FeatureItem { title: string; description: string; }
-// ServiceItem não era necessária se items é string[], então foi removida.
 interface TechPillarItem { title: string; description: string; }
 
 
@@ -204,7 +204,7 @@ const MainContent: React.FC = () => {
                 </div>
               </div>
               <div className="space-y-8 animate-fadeInUp animation-delay-400">
-                {b2yCarbonFeatures.map((feature: FeatureItem, index: number) => (
+                {b2yCarbonFeatures.map((feature, index) => ( // Não precisa mais de tipo explícito aqui, pois b2yCarbonFeatures já é tipado
                   <div key={index} className="p-8 bg-gray-800/50 backdrop-blur-md rounded-2xl border border-emerald-500/20 transition-all duration-300 hover:border-emerald-400/60 hover:shadow-emerald-400/25 transform hover:-translate-y-1 futuristic-hover">
                     <h3 className="text-2xl sm:text-3xl font-bold text-emerald-300 mb-4 tracking-tight">{feature.title}</h3>
                     <p className="text-gray-300 leading-relaxed text-lg font-light">{feature.description}</p>
@@ -255,7 +255,7 @@ const MainContent: React.FC = () => {
                 <h3 className="text-3xl font-bold text-emerald-300 mb-6 tracking-tight">{content.services.development.title}</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed font-light">{content.services.development.description}</p>
                 <ul className="space-y-4 text-left text-gray-200 text-lg">
-                  {content.services.development.items.map((item: string, index: number) => (
+                  {content.services.development.items.map((item, index) => ( // Tipo string inferido
                     <li key={index} className="flex items-center">
                       <Zap size={22} className="text-emerald-400 mr-4 shrink-0" />
                       <span>{item}</span>
@@ -268,7 +268,7 @@ const MainContent: React.FC = () => {
                 <h3 className="text-3xl font-bold text-emerald-300 mb-6 tracking-tight">{content.services.investment.title}</h3>
                 <p className="text-gray-300 mb-8 leading-relaxed font-light">{content.services.investment.description}</p>
                 <ul className="space-y-4 text-left text-gray-200 text-lg">
-                  {content.services.investment.items.map((item: string, index: number) => (
+                  {content.services.investment.items.map((item, index) => ( // Tipo string inferido
                     <li key={index} className="flex items-center">
                       <UsersRound size={22} className="text-emerald-400 mr-4 shrink-0" />
                       <span>{item}</span>
@@ -298,7 +298,7 @@ const MainContent: React.FC = () => {
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mt-6 mb-8 tracking-tight animate-fadeInUp animation-delay-100">{content.technology.title}</h2>
             <p className="text-lg md:text-xl max-w-3xl mx-auto mb-16 md:mb-20 text-gray-300 leading-relaxed font-light animate-fadeInUp animation-delay-200">{content.technology.subtitle}</p>
             <div className="grid md:grid-cols-3 gap-8 md:gap-12">
-              {technologyItems.map((item: TechPillarItem, index: number) => (
+              {technologyItems.map((item, index) => ( // Tipo TechPillarItem já definido
                 <div key={index} className="bg-gray-800/40 backdrop-blur-lg p-8 rounded-2xl shadow-xl border border-emerald-500/20 hover:border-emerald-400/50 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-emerald-400/25 futuristic-hover animate-fadeInUp" style={{animationDelay: `${(index * 150) + 300}ms`}}>
                    {index === 0 && <Brain className="w-12 h-12 text-emerald-300 mx-auto mb-5" />}
                    {index === 1 && <ShieldCheck className="w-12 h-12 text-emerald-300 mx-auto mb-5" />}
@@ -325,7 +325,7 @@ const MainContent: React.FC = () => {
               {content.sustainability.introText}
             </p>
             <div className="grid gap-8 md:gap-12 sm:grid-cols-1 md:grid-cols-3 mt-8">
-              {sustainabilityPillars.map((pillar: TechPillarItem, index: number) => (
+              {sustainabilityPillars.map((pillar, index) => ( // Tipo TechPillarItem já definido
                 <div key={index} className="flex flex-col p-8 bg-black/50 backdrop-blur-xl border border-emerald-500/30 rounded-3xl shadow-2xl hover:shadow-emerald-400/30 transition-all duration-300 transform hover:scale-105 futuristic-hover animate-fadeInUp" style={{animationDelay: `${(index * 150) + 300}ms`}}>
                   <div className="mb-6 flex items-center justify-center rounded-full bg-emerald-500/20 p-4 w-20 h-20 mx-auto border-2 border-emerald-500/40">
                     {index === 0 && <Zap className="size-10 text-emerald-300" />}
