@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import LogoB2YSplash from '@/components/assets/logocorp_redondo.png'; 
+import LogoB2YSplash from '@/components/assets/logocorp.png'; 
 import { Zap, Leaf, Cpu, Lightbulb, Network, HardDrive, Brain, ShieldCheck } from 'lucide-react';
 
 interface LoadingSceneProps {

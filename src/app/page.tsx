@@ -15,7 +15,7 @@ import { Navigation } from '@/components/navigation';
 import Image from 'next/image';
 
 // --- ASSETS ---
-import LogoB2YGroup from '@/components/assets/logocorp.png';
+import LogoB2YGroup from '@/components/assets/logocorp_redondo.png';
 import ImagemHeroGrupo from '@/components/assets/high-tech-view-futuristic-earth.jpg';
 import ImagemHeroCarbon from '@/components/assets/view-green-forest-trees-with-co2.jpg';
 import ImagemHeroTecnologia from '@/components/assets/digital-screen-with-environment-day.jpg';
