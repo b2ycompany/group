@@ -108,10 +108,10 @@ export function LoadingScene({ onLoadingComplete }: LoadingSceneProps) {
             <Image 
               src={LogoB2YSplash} 
               alt="B2Y Group & Lion Solutions" 
-              width={160} // Ajuste para o conteúdo do seu PNG redondo
-              height={160} // Manter proporção 1:1 para círculo
+              width={208} 
+              height={208}
               priority 
-              className="filter_custom_glow p-2" // Adicione um pequeno padding se o PNG não tiver respiro interno
+              className="filter_custom_glow"
             />
           </div>
         </div>

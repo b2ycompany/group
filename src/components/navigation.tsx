@@ -101,9 +101,8 @@ export function Navigation() {
                     <Image 
                         src={LogoMobileMenu} 
                         alt="B2Y Group Logo" 
-                        width={40} 
-                        height={40}
-                        className="p-0.5"
+                        width={48} 
+                        height={48}
                     />
                 </div>
                 <SheetTrigger asChild>

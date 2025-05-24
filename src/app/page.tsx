@@ -106,14 +106,14 @@ const MainContent: React.FC = () => {
           <div>
             <a href="#hero-swiper" onClick={(e) => { e.preventDefault(); scrollToSectionGlobal('hero-swiper'); }} className="cursor-pointer block transform transition-transform hover:scale-105">
               {/* LOGO REDONDO E AJUSTADO NO HEADER */}
-              <div className="w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center bg-gray-800/30 border border-emerald-600/40 shadow-lg hover:shadow-emerald-500/30 transition-shadow duration-300 p-1">
+              <div className="w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center bg-gray-800/30 border border-emerald-600/40 shadow-lg hover:shadow-emerald-500/30 transition-shadow duration-300">
                 <Image 
                   src={LogoHeader} 
                   alt="B2Y Group Logo" 
-                  width={60} // Ajuste para o conteúdo do seu PNG redondo
-                  height={60}
+                  width={68} 
+                  height={68}
                   priority 
-                  className="rounded-full" // Garante o formato redondo se o PNG não for transparente
+                  className="rounded-full" 
                 />
               </div>
             </a>
